@@ -1,8 +1,9 @@
 ---
-title: Welcome to Middleman
+title: arch.wanko.cc
 ---
 
-.welcome
-  h1 Middleman is Watching
-  p.doc
-    == link_to "Read Online Documentation", "http://middlemanapp.com/"
+.container
+  h1= current_page.data.title
+  ul
+    - data.repositories.each do |repo|
+      li.lead= link_to repo, repo

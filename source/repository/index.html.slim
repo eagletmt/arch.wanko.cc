@@ -1,0 +1,39 @@
+h1= repo_name
+
+.panel.panel-default
+  .panel-heading Setup
+  .panel-body
+    markdown:
+      Before using this repository, import and trust [my GPG key](http://wanko.cc/gpg.html).
+
+          # pacman-key --recv-keys C48DBD97
+          # pacman-key --lsign-key C48DBD97
+
+      Add the following setting to your /etc/pacman.conf.
+
+          [#{repo_name}]
+          SigLevel = Required
+          Server = http://arch.wanko.cc/$repo/os/$arch
+
+- %w[x86_64 i686].each do |arch|
+  div
+    h2= arch
+    - packages = repo.packages(arch).to_h
+    table.table
+      thead
+        tr
+          th name
+          th version
+          th package
+          th signature
+          th builddate
+      tbody
+        - packages.keys.sort.each do |key|
+          - entry = packages[key]
+          tr
+            td= entry.name
+            td= entry.version
+            - path = "/#{repo_name}/os/#{arch}/#{entry.filename}"
+            td= link_to entry.filename, path
+            td= link_to "#{entry.filename}.sig", "#{path}.sig"
+            td data-time=entry.builddate = Time.at(entry.builddate.to_i)

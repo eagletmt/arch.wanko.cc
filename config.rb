@@ -56,6 +56,36 @@ set :js_dir, 'javascripts'
 
 set :images_dir, 'images'
 
+require 'dotenv'
+Dotenv.load!
+
+require 'tempfile'
+require 'aws-sdk'
+require 'akabei/repository'
+
+class S3Repository
+  def initialize(name)
+    @name = name
+    @bucket = AWS::S3.new(region: ENV['REGION']).buckets[ENV['BUCKET']]
+  end
+
+  def packages(arch)
+    f = Tempfile.new("#{@name}.#{arch}.db")
+    f.binmode
+    @bucket.objects["#{@name}/os/#{arch}/#{@name}.db"].read do |chunk|
+      f.write chunk
+    end
+    f.close
+    repo = Akabei::Repository.load(f.path)
+    repo.each
+  end
+end
+
+data.repositories.each do |repo|
+  proxy "#{repo}/index.html", 'repository/index.html', locals: { repo: S3Repository.new(repo), repo_name: repo }
+end
+ignore 'repository/index.html'
+
 # Build-specific configuration
 configure :build do
   # For example, change the Compass output style for deployment
@@ -72,4 +102,11 @@ configure :build do
 
   # Or use a different image path
   # set :http_path, "/Content/images/"
+end
+
+activate :s3_sync do |s3_sync|
+  s3_sync.bucket = ENV['BUCKET']
+  s3_sync.region = ENV['REGION']
+  s3_sync.delete = false
+  s3_sync.reduced_redundancy_storage = true
 end

@@ -9,8 +9,8 @@ html
     /! Use title if it's in the page YAML frontmatter
     title == data.page.title || "The Middleman"
 
-    == stylesheet_link_tag "normalize", "all"
-    == javascript_include_tag  "all"
+    == stylesheet_link_tag "//netdna.bootstrapcdn.com/bootswatch/3.0.3/slate/bootstrap.min.css"
 
   body class="#{page_classes}"
-  == yield
+  .container
+    == yield
