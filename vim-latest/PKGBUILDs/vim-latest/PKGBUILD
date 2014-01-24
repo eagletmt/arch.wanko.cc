@@ -1,0 +1,77 @@
+pkgname=vim-latest
+_baseversion=7.4
+_patchlevel=155
+pkgver=${_baseversion}.${_patchlevel}
+pkgrel=1
+pkgdesc='Vi Improved, a highly configurable, improved version of the vi text editor'
+arch=(i686 x86_64)
+license=('custom:vim')
+url="http://www.vim.org"
+depends=('gpm' 'libxt' 'gtk2')
+makedepends=('grep' 'gettext' 'perl' 'python' 'python2' 'ruby' 'luajit')
+conflicts=(vim vim-runtime)
+provides=(vim=$pkgver vim-runtime=$pkgver)
+_tag=${_baseversion/./-}-${_patchlevel}
+source=(vim-$pkgver.tar.gz::https://github.com/vim-jp/vim/archive/v$_tag.tar.gz
+        vim-7.4.035-breakindent.patch)
+
+prepare() {
+  cd "$srcdir/vim-$_tag"
+
+  sed -i 's|set dummy python;|set dummy python2;|g' src/auto/configure
+  sed -i 's|^.*\(#define SYS_.*VIMRC_FILE.*"\) .*$|\1|' src/feature.h
+  sed -i 's|^.*\(#define VIMRC_FILE.*"\) .*$|\1|' src/feature.h
+
+  # https://groups.google.com/forum/#!topic/vim_dev/SML3mtGd50s
+  patch -Np1 -i "$srcdir/vim-7.4.035-breakindent.patch"
+}
+
+build()
+{
+  cd "$srcdir/vim-$_tag"
+
+  ./configure --prefix=/usr --localstatedir=/var/lib/vim --mandir=/usr/share/man \
+  --with-features=huge --enable-gpm --enable-acl --with-x=yes --enable-gui=gtk2 \
+  --enable-multibyte --enable-cscope \
+  --enable-perlinterp=dynamic --enable-pythoninterp=yes --enable-python3interp=yes \
+  --enable-rubyinterp=dynamic --enable-luainterp=dynamic --with-luajit \
+  --with-compiledby='Kohei Suzuki <eagletmt@gmail.com>'
+
+  make
+}
+
+package() {
+  cd "$srcdir/vim-$_tag"
+  make VIMRCLOC=/etc DESTDIR="$pkgdir" install
+
+  cd "$pkgdir/usr/bin"
+  rm ex view                # provided by (n)vi in core
+
+  # delete some manpages
+  cd "$pkgdir/usr/share/man"
+  rm -f {*/,}man1/ex.1 {*/,}man1/view.1      # provided by (n)vi
+  rm -f {*/,}man1/evim.1                     # this does not make sense in the console version
+
+  local _shortver=${_baseversion/./}
+  # patch runtime
+  cd "$pkgdir/usr/share/vim/vim$_shortver/"
+  sed -i "s/rpmsave/pacsave/;s/rpmnew/pacnew/;s/,\*\.ebuild/\0,PKGBUILD*,*.install/" filetype.vim
+
+  # fix FS#17216
+  sed -i 's|messages,/var|messages,/var/log/messages.log,/var|' \
+    "$pkgdir/usr/share/vim/vim$_shortver/filetype.vim"
+
+
+  install -dm755 "$pkgdir/usr/share/licenses/$pkgname"
+  cd "$pkgdir/usr/share/licenses/$pkgname"
+  ln -s ../../vim/vim$_shortver/doc/uganda.txt license.txt
+}
+
+check() {
+  cd "$srcdir/vim-$_tag"
+  make -j1 test
+}
+
+# vim:set ts=2 sw=2 et:
+sha1sums=('7517209ee1e1d604951e52e334340a56e6c9ae4b'
+          'a906c19a9c3e60928434563e604b5040545d3313')
