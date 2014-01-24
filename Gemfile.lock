@@ -4,7 +4,7 @@ GEM
     activesupport (3.2.16)
       i18n (~> 0.6, >= 0.6.4)
       multi_json (~> 1.0)
-    akabei (0.3.0)
+    akabei (0.3.1)
       gpgme
       libarchive
       safe_yaml
