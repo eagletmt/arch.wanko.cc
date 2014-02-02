@@ -1,6 +1,6 @@
 pkgname=vim-latest
 _baseversion=7.4
-_patchlevel=159
+_patchlevel=161
 pkgver=${_baseversion}.${_patchlevel}
 pkgrel=1
 pkgdesc='Vi Improved, a highly configurable, improved version of the vi text editor'
@@ -13,7 +13,8 @@ conflicts=(vim vim-runtime)
 provides=(vim=$pkgver vim-runtime=$pkgver)
 _tag=${_baseversion/./-}-${_patchlevel}
 source=(vim-$pkgver.tar.gz::https://github.com/vim-jp/vim/archive/v$_tag.tar.gz
-        vim-7.4.035-breakindent.patch)
+        vim-7.4.035-breakindent.patch
+        ruby21-rgengc.patch)
 
 prepare() {
   cd "$srcdir/vim-$_tag"
@@ -24,6 +25,9 @@ prepare() {
 
   # https://groups.google.com/forum/#!topic/vim_dev/SML3mtGd50s
   patch -Np1 -i "$srcdir/vim-7.4.035-breakindent.patch"
+
+  # https://groups.google.com/forum/#!topic/vim_dev/2wXTpFEnZgI
+  patch -Np1 -i "$srcdir/ruby21-rgengc.patch"
 }
 
 build()
@@ -73,5 +77,6 @@ check() {
 }
 
 # vim:set ts=2 sw=2 et:
-sha1sums=('37fa1dc0de11581c9a58c4b6235d926531686c2c'
-          'a906c19a9c3e60928434563e604b5040545d3313')
+sha1sums=('fa9fa14feab7d4bc156e07517af2af3adcdc1775'
+          'a906c19a9c3e60928434563e604b5040545d3313'
+          '909d6d415d9e9bc3b082ee22ac7d5eaf1962e152')
