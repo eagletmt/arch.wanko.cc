@@ -1,0 +1,19 @@
+language: ruby
+rvm: 2.1.0
+env:
+  global:
+    - secure: "C62oVRD6WdwGMkA2VblYgWs8yW1z5TzKU56OvtmPPrvhxsQVLOXl3FmLlbTA8oiHgx2N07ynI0ywSSvVQTJPZ21pIIlvhaihlG7BZj8zCHZmyGZcSnhMuLEa/1rye7mfa5/a3UbVNN4aWjZsPhmcOkKKW9xmOJHJ0eqqmPyjzTc="
+    - BUCKET=arch.wanko.cc
+    - REGION=ap-northeast-1
+    - NOKOGIRI_USE_SYSTEM_LIBRARIES=1
+before_install:
+  - sudo apt-get install -y libarchive-dev
+before_script:
+  - touch .env
+script:
+  - bundle exec middleman build
+after_success:
+  - bundle exec middleman s3_sync
+branches:
+  only:
+    - master
