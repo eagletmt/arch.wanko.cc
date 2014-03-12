@@ -1,33 +1,28 @@
-# Maintainer: Ido Rosen <ido@kernel.org>
+# Maintainer: Kohei Suzuki <eagletmt@gmail.com>
+# Contributor: Ido Rosen <ido@kernel.org>
 # Contributor: Brett Hoerner <brett@bretthoerner.com>
 # Contributor: Jochen Schalanda <jochen+aur@schalanda.name>
 # Contributor: Mathieu Clabaut <mathieu.clabaut@gmail.com>
 # Contributor: helios <aur@wiresphere.de>\
 # Contributor: George Ornbo <gornbo@gmail.com>
-#
-# NOTE: To request changes to this package, please submit a pull request
-#       to the GitHub repository at https://github.com/ido/packages-archlinux
-#       Otherwise, open a GitHub issue.  Thank you! -Ido
-#
 
 
 pkgname=vagrant
-pkgver=1.4.3
+pkgver=1.5.0
 pkgrel=1
 pkgdesc="Tool for building and distributing virtualized development environments"
 arch=('i686' 'x86_64')
 url="http://vagrantup.com/"
 license=('MIT')
 options=(!strip)
-depends=
+depends=()
 optdepends=(
     'net-tools: NFS shared folder support'
     )
 source=(https://dl.bintray.com/mitchellh/vagrant/${pkgname}_${pkgver}_${CARCH}.rpm)
-[[ "$CARCH" == "x86_64" ]] && sha512sums=('5e6bdbb41f281d3b27736536123e5fa4658704cadffa3b65f9c8ac5eec398a9105f4d831a345f16b2b48a458a2e318980ad607321a9e670d5091ce8ed43d8b9d')
-[[ "$CARCH" == "i686" ]] && sha512sums=('1e933edee7ce8f4de3aafecb0fbbb371a9ee53dd0a1a7759f275fb5b2f990f3bfcaca970f31875d650059bf1137bbd3d9730d6cb44ea6ed4c47c636c33e92ad2')
- 
- 
+[[ "$CARCH" == "x86_64" ]] && sha512sums=('e1c3de9658b6d7eb35772e19e71d622305e5c3bd15dc769c6b05aba16162befdea7c09fe829180beba329fbbf32b2d2dafc76e56245bf6916305209c2b1b8b7a')
+[[ "$CARCH" == "i686" ]] && sha512sums=('d6d760d870629c544c824b4def5437d8c0463b42c2226d544d32e3771ea9ab7dff901ae11cc8b2b71761d5bdf45f4a2dde7f713f85543564119e7bebcfbc0e06')
+
 package() {
   mv $srcdir/{opt,usr} $pkgdir
 }
