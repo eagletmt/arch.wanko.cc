@@ -14,3 +14,5 @@ html
   body class="#{page_classes}"
   .container
     == yield
+    - github_link = 'https://github.com/eagletmt/arch.wanko.cc'
+    footer= link_to github_link, github_link
