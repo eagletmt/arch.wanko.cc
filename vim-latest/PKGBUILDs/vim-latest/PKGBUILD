@@ -1,6 +1,6 @@
 pkgname=vim-latest
 _baseversion=7.4
-_patchlevel=229
+_patchlevel=239
 pkgver=${_baseversion}.${_patchlevel}
 pkgrel=1
 pkgdesc='Vi Improved, a highly configurable, improved version of the vi text editor'
@@ -35,7 +35,8 @@ build()
   --enable-multibyte --enable-cscope \
   --enable-perlinterp=dynamic --enable-pythoninterp=yes --enable-python3interp=yes \
   --enable-rubyinterp=dynamic --enable-luainterp=dynamic --with-luajit \
-  --with-compiledby='Kohei Suzuki <eagletmt@gmail.com>'
+  --with-compiledby='Kohei Suzuki <eagletmt@gmail.com>' \
+  --disable-smack
 
   make
 }
@@ -73,5 +74,5 @@ check() {
 }
 
 # vim:set ts=2 sw=2 et:
-sha1sums=('a705e4c1f4da1b31a48780195495e01d88770856'
+sha1sums=('c6db34faeb5059fc62755a664cd20135a5ca792d'
           '8fcf7658d2d21321e6d388d3f6796016d67417e5')
