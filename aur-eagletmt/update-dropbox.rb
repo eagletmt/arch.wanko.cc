@@ -35,7 +35,7 @@ class Source
   end
 
   def url
-    "https://dl.dropboxusercontent.com/u/17/#{path.basename}"
+    "https://d1ilhw0800yew8.cloudfront.net/client/#{path.basename}"
   end
 
   def hexdigest
