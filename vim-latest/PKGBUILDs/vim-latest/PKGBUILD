@@ -1,6 +1,6 @@
 pkgname=vim-latest
 _baseversion=7.4
-_patchlevel=326
+_patchlevel=347
 pkgver=${_baseversion}.${_patchlevel}
 pkgrel=1
 pkgdesc='Vi Improved, a highly configurable, improved version of the vi text editor'
@@ -12,8 +12,7 @@ makedepends=('grep' 'gettext' 'perl' 'python' 'python2' 'ruby' 'luajit')
 conflicts=(vim vim-runtime)
 provides=(vim=$pkgver vim-runtime=$pkgver)
 _tag=${_baseversion/./-}-${_patchlevel}
-source=(vim-$pkgver.tar.gz::https://github.com/vim-jp/vim/archive/v$_tag.tar.gz
-        breakindent.patch)
+source=(vim-$pkgver.tar.gz::https://github.com/vim-jp/vim/archive/v$_tag.tar.gz)
 
 prepare() {
   cd "$srcdir/vim-$_tag"
@@ -21,9 +20,6 @@ prepare() {
   sed -i 's|set dummy python;|set dummy python2;|g' src/auto/configure
   sed -i 's|^.*\(#define SYS_.*VIMRC_FILE.*"\) .*$|\1|' src/feature.h
   sed -i 's|^.*\(#define VIMRC_FILE.*"\) .*$|\1|' src/feature.h
-
-  # https://groups.google.com/forum/#!topic/vim_dev/SML3mtGd50s
-  patch -Np1 -i "$srcdir/breakindent.patch"
 }
 
 build()
@@ -74,5 +70,4 @@ check() {
 }
 
 # vim:set ts=2 sw=2 et:
-sha1sums=('6d9c7adc1bdfa27f283947a6b009543bc2f7efad'
-          '8fcf7658d2d21321e6d388d3f6796016d67417e5')
+sha1sums=('01c284d7e4fbaf5ec299e41874c4b2752d2c0085')
