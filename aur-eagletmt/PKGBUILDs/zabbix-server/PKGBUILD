@@ -1,0 +1,101 @@
+# Maintainer: Idares <idares@seznam.cz>
+# Contributor: Phillip Smith <fukawi2@NO-SPAM.gmail.com>
+# http://github.com/fukawi2/aur-packages
+# Contributor: Enrico Morelli <morelli@cerm.unifi.it>
+
+### I AM ONLY THE PACKAGER, NOT THE DEVELOPER
+### Please ask support questions about this software in one of:
+###   1) The AUR comments; OR
+###   2) Upstream forums/maillist etc; OR
+###   3) The ArchLinux forums
+### I do not always know enough about the software itself, or don't have the
+### time to promptly respond to direct emails.
+### If you have found a problem with the package/PKGBUILD (as opposed to
+### the software) then please do email me or post an AUR comment.
+
+pkgname=zabbix-server
+pkgver=2.2.6
+pkgrel=1
+pkgdesc="Software for monitoring of your applications, network and servers."
+arch=('i686' 'x86_64')
+url="http://www.zabbix.com"
+license=('GPL')
+depends=('apache' 'postgresql' 'php' 'php-pgsql' 'php-gd' 'fping' 'net-snmp' 'curl' 'iksemel' 'libxml2')
+backup=('etc/zabbix/zabbix_server.conf')
+install='zabbix-server.install'
+options=('emptydirs')
+source=("http://downloads.sourceforge.net/sourceforge/zabbix/zabbix-$pkgver.tar.gz"
+        'zabbix-server.install'
+        'zabbix-server.service'
+		'zabbix-server.tmpfiles'
+        )
+
+_HTMLPATH='srv/http/zabbix'
+
+build() {
+  cd "$srcdir/zabbix-$pkgver"
+
+  ./configure \
+    --prefix=/usr \
+	--sbindir=/usr/bin \
+    --enable-server \
+    --with-net-snmp \
+    --with-jabber \
+    --with-libcurl \
+    --with-postgresql \
+	--with-libxml2 \
+	--sysconfdir=/etc/zabbix
+
+  make
+}
+
+package() {
+  cd "$srcdir/zabbix-$pkgver"
+
+  make DESTDIR="$pkgdir" install
+
+  # Create data dirs required
+  install -d -m0750 $pkgdir/var/log/zabbix
+
+  # database schema
+  _DBSCHEMADIR="$pkgdir/etc/zabbix/database/postgresql"
+  mkdir -p $_DBSCHEMADIR
+  for _SQLFILE in {schema,data,images}.sql; do
+    install -D -m 0444 database/postgresql/$_SQLFILE $_DBSCHEMADIR/$_SQLFILE
+  done
+
+  # database upgrade patch
+  _DBPATCHDIR="$pkgdir/etc/zabbix/database/postgresql/upgrade/2.0"
+  mkdir -p $_DBPATCHDIR
+  install -D -m 0444 upgrades/dbpatches/2.0/postgresql/patch.sql $_DBPATCHDIR/patch.sql
+
+  # frontends (user:group = root:apache)
+  mkdir -p $pkgdir/$_HTMLPATH/
+  cp -r frontends/php/* $pkgdir/$_HTMLPATH/
+  chown -R 0:33 $pkgdir/$_HTMLPATH/
+  chmod -R u=rwX,g=rX,o= $pkgdir/$_HTMLPATH/
+
+  # default configuration files
+  install -D -m 0640 conf/zabbix_server.conf $pkgdir/etc/zabbix/zabbix_server.conf
+
+  # change pid file location
+  sed -i 's:# PidFile=.*:PidFile=/run/zabbix/zabbix_server.pid:' $pkgdir/etc/zabbix/zabbix_server.conf
+  # change log file location
+  sed -i 's:^LogFile=.*:LogFile=/var/log/zabbix/zabbix_server.log:' $pkgdir/etc/zabbix/zabbix_server.conf
+
+  # service file
+  install -D -m 0644 $srcdir/zabbix-server.service $pkgdir/usr/lib/systemd/system/zabbix-server.service
+
+  # tmpfile
+  install -D -m 0644 $srcdir/zabbix-server.tmpfiles $pkgdir/usr/lib/tmpfiles.d/zabbix-server.conf
+}
+
+md5sums=('38bc2407f80053d71853bb3419da364a'
+         'd5d3ea1657da810abbd5986dde04d6e6'
+         '7200c01662be3a1d364c280ff2a818ac'
+         '9ce692356b4ac0a71595ce55fe3b44c1')
+sha1sums=('69e051cd8f9a5053bd64ff047f1f0f026f96c720'
+          'e166bca2d38fe5f00c6c204f63e4a50bfdffdb5d'
+          '7db689838d1f7985b75f91fb319227c3211bab7d'
+          '8926befcb944732fd59a34c89b569d3fbef1ca9d')
+
