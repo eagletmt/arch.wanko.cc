@@ -110,7 +110,7 @@ package() {
 
 	find "$pkgdir/opt/dropbox/" -type f -exec chmod 644 {} \;
 	chmod 755 "$pkgdir/opt/dropbox/dropboxd"
-	chmod 755 "$pkgdir/opt/dropbox/dropbox"
+	chmod 755 "$pkgdir/opt/dropbox/dropbox-lnx.${_source_arch}-${pkgver}/dropbox"
 
 	install -d "$pkgdir/usr/bin"
 	ln -s "/opt/dropbox/dropboxd" "$pkgdir/usr/bin/dropboxd"
