@@ -12,6 +12,6 @@ gem "middleman-livereload"
 gem "wdm", "~> 0.1.0", :platforms => [:mswin, :mingw]
 
 gem 'dotenv'
-gem 'aws-sdk'
-gem 'akabei'
+gem 'aws-sdk-resources'
+gem 'akabei', '>= 0.4.0'
 gem 'middleman-s3_sync'

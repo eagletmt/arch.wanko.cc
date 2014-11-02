@@ -7,16 +7,18 @@ GEM
       minitest (~> 5.1)
       thread_safe (~> 0.1)
       tzinfo (~> 1.1)
-    akabei (0.3.5)
+    akabei (0.4.0)
       gpgme
       libarchive
       safe_yaml
       thor
-    aws-sdk (1.57.0)
-      aws-sdk-v1 (= 1.57.0)
-    aws-sdk-v1 (1.57.0)
-      json (~> 1.4)
-      nokogiri (>= 1.4.4)
+    aws-sdk-core (2.0.6)
+      builder (~> 3.0)
+      jmespath (~> 1.0)
+      multi_json (~> 1.0)
+      multi_xml (~> 0.5)
+    aws-sdk-resources (2.0.6.pre)
+      aws-sdk-core (= 2.0.6)
     builder (3.2.2)
     celluloid (0.16.0)
       timers (~> 4.0.0)
@@ -95,6 +97,8 @@ GEM
     i18n (0.6.11)
     inflecto (0.0.2)
     ipaddress (0.8.0)
+    jmespath (1.0.1)
+      multi_json (~> 1.0)
     json (1.8.1)
     kramdown (1.5.0)
     libarchive (0.1.2)
@@ -147,6 +151,7 @@ GEM
     mini_portile (0.6.0)
     minitest (5.4.2)
     multi_json (1.10.1)
+    multi_xml (0.5.5)
     net-scp (1.2.1)
       net-ssh (>= 2.6.5)
     net-ssh (2.9.1)
@@ -203,8 +208,8 @@ PLATFORMS
   ruby
 
 DEPENDENCIES
-  akabei
-  aws-sdk
+  akabei (>= 0.4.0)
+  aws-sdk-resources
   dotenv
   middleman
   middleman-livereload
