@@ -3,21 +3,27 @@
 # Contributor: Matthias Meulien orontee@gmail.com
 
 pkgname=global
-pkgver=6.3
-pkgrel=1
+pkgver=6.3.2
+pkgrel=2
 pkgdesc="A source code tag system"
 arch=('i686' 'x86_64')
 url="http://www.gnu.org/software/global/"
 license=('GPL')
 depends=('libltdl' 'bash' 'perl')
-optdepends=('idutils' 'ctags')
-options=(!emptydirs libtool)
+makedepends=('python2')
+optdepends=('idutils' 'ctags' 'python2-pygments')
+options=(!emptydirs !libtool)
 install=global.install
 source=(http://tamacom.com/global/${pkgname}-${pkgver}.tar.gz)
 
+prepare() {
+    cd "${srcdir}/${pkgname}-${pkgver}"
+    sed -i 's/\.la/.so/g' gtags.conf.in
+}
+
 build() {
 	cd "${srcdir}/${pkgname}-${pkgver}"
-	./configure --prefix=/usr --with-exuberant-ctags=/usr/bin/ctags
+	PYTHON=/usr/bin/python2 ./configure --prefix=/usr --with-exuberant-ctags=/usr/bin/ctags
 	make
 }
 
@@ -34,5 +40,5 @@ package() {
 	ln -s ../../gtags/gtags.el "${pkgdir}/usr/share/emacs/site-lisp/gtags.el"
 }
 
-md5sums=('a919a7f074cfe5dc6dcf5f4b7b3f7374')
-sha256sums=('c91c741ebf5a27fcb3a61c93f2ee4b97ba265ecb2f48644751d0d5e133c3f8db')
+md5sums=('ce49e6a15e740e6ec9799a3fc64c8520')
+sha256sums=('4008f7c022a1071d900704a079cde693ad2345d8656ea6696e033200fe75311e')
