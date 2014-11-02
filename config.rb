@@ -60,20 +60,20 @@ require 'dotenv'
 Dotenv.load!
 
 require 'tempfile'
-require 'aws-sdk'
+require 'aws-sdk-resources'
 require 'akabei/repository'
 
 class S3Repository
   def initialize(name)
     @name = name
-    @bucket = AWS::S3.new(region: ENV['REGION']).buckets[ENV['BUCKET']]
+    @bucket = Aws::S3::Resource.new(region: ENV['REGION']).bucket(ENV['BUCKET'])
   end
 
   def packages(arch)
     f = Tempfile.new("#{@name}.#{arch}.db")
     f.binmode
-    @bucket.objects["#{@name}/os/#{arch}/#{@name}.db"].read do |chunk|
-      f.write chunk
+    @bucket.object("#{@name}/os/#{arch}/#{@name}.db").get do |chunk|
+      f.write(chunk)
     end
     f.close
     repo = Akabei::Repository.load(f.path)
