@@ -1,7 +1,8 @@
 GEM
   remote: https://rubygems.org/
   specs:
-    activesupport (4.1.7)
+    CFPropertyList (2.2.8)
+    activesupport (4.1.8)
       i18n (~> 0.6, >= 0.6.9)
       json (~> 1.7, >= 1.7.7)
       minitest (~> 5.1)
@@ -12,13 +13,13 @@ GEM
       libarchive
       safe_yaml
       thor
-    aws-sdk-core (2.0.6)
+    aws-sdk-core (2.0.14)
       builder (~> 3.0)
       jmespath (~> 1.0)
       multi_json (~> 1.0)
       multi_xml (~> 0.5)
-    aws-sdk-resources (2.0.6.pre)
-      aws-sdk-core (= 2.0.6)
+    aws-sdk-resources (2.0.14.pre)
+      aws-sdk-core (= 2.0.14)
     builder (3.2.2)
     celluloid (0.16.0)
       timers (~> 4.0.0)
@@ -27,7 +28,7 @@ GEM
       coffee-script-source
       execjs
     coffee-script-source (1.8.0)
-    colorize (0.7.3)
+    colorize (0.7.4)
     compass (1.0.1)
       chunky_png (~> 1.2)
       compass-core (~> 1.0.1)
@@ -46,31 +47,51 @@ GEM
       http_parser.rb (~> 0.6.0)
     erubis (2.7.0)
     eventmachine (1.0.3)
-    excon (0.40.0)
+    excon (0.42.1)
     execjs (2.2.2)
     ffi (1.9.6)
-    fog (1.24.0)
-      fog-brightbox
-      fog-core (~> 1.23)
+    fission (0.5.0)
+      CFPropertyList (~> 2.2)
+    fog (1.26.0)
+      fog-atmos
+      fog-brightbox (~> 0.4)
+      fog-core (~> 1.27, >= 1.27.1)
+      fog-ecloud
       fog-json
+      fog-profitbricks
       fog-radosgw (>= 0.0.2)
       fog-sakuracloud (>= 0.0.4)
       fog-softlayer
+      fog-storm_on_demand
+      fog-terremark
+      fog-vmfusion
+      fog-voxel
+      fog-xml (~> 0.1.1)
       ipaddress (~> 0.5)
       nokogiri (~> 1.5, >= 1.5.11)
-    fog-brightbox (0.6.1)
+    fog-atmos (0.1.0)
+      fog-core
+      fog-xml
+    fog-brightbox (0.7.1)
       fog-core (~> 1.22)
       fog-json
-      inflecto
-    fog-core (1.24.0)
+      inflecto (~> 0.0.2)
+    fog-core (1.27.1)
       builder
       excon (~> 0.38)
       formatador (~> 0.2)
       mime-types
       net-scp (~> 1.1)
       net-ssh (>= 2.1.3)
+    fog-ecloud (0.0.2)
+      fog-core
+      fog-xml
     fog-json (1.0.0)
       multi_json (~> 1.0)
+    fog-profitbricks (0.0.1)
+      fog-core
+      fog-xml
+      nokogiri
     fog-radosgw (0.0.3)
       fog-core (>= 1.21.0)
       fog-json
@@ -78,16 +99,28 @@ GEM
     fog-sakuracloud (0.1.1)
       fog-core
       fog-json
-    fog-softlayer (0.3.23)
+    fog-softlayer (0.3.25)
       fog-core
       fog-json
-    fog-xml (0.1.0)
+    fog-storm_on_demand (0.0.1)
+      fog-core
+      fog-json
+    fog-terremark (0.0.3)
+      fog-core
+      fog-xml
+    fog-vmfusion (0.0.1)
+      fission
+      fog-core
+    fog-voxel (0.0.2)
+      fog-core
+      fog-xml
+    fog-xml (0.1.1)
       fog-core
       nokogiri (~> 1.5, >= 1.5.11)
     formatador (0.2.5)
     gpgme (2.0.7)
       mini_portile (>= 0.5.0, <= 0.6.0)
-    haml (4.0.5)
+    haml (4.0.6)
       tilt
     hike (1.2.3)
     hitimes (1.2.2)
@@ -97,28 +130,28 @@ GEM
     i18n (0.6.11)
     inflecto (0.0.2)
     ipaddress (0.8.0)
-    jmespath (1.0.1)
+    jmespath (1.0.2)
       multi_json (~> 1.0)
     json (1.8.1)
     kramdown (1.5.0)
     libarchive (0.1.2)
-    listen (2.7.11)
+    listen (2.8.3)
       celluloid (>= 0.15.2)
       rb-fsevent (>= 0.9.3)
       rb-inotify (>= 0.9)
     map (6.5.5)
-    middleman (3.3.6)
+    middleman (3.3.7)
       coffee-script (~> 2.2)
       compass (>= 1.0.0, < 2.0.0)
       compass-import-once (= 1.0.5)
       execjs (~> 2.0)
       haml (>= 4.0.5)
       kramdown (~> 1.2)
-      middleman-core (= 3.3.6)
+      middleman-core (= 3.3.7)
       middleman-sprockets (>= 3.1.2)
       sass (>= 3.4.0, < 4.0)
       uglifier (~> 2.5)
-    middleman-core (3.3.6)
+    middleman-core (3.3.7)
       activesupport (~> 4.1.0)
       bundler (~> 1.1)
       erubis
@@ -134,9 +167,9 @@ GEM
       em-websocket (~> 0.5.1)
       middleman-core (~> 3.2)
       rack-livereload (~> 0.3.15)
-    middleman-s3_sync (3.0.35)
+    middleman-s3_sync (3.0.38)
       colorize
-      fog (>= 1.10.1)
+      fog (>= 1.25.0)
       map
       middleman-core (>= 3.0.0)
       pmap
@@ -149,14 +182,14 @@ GEM
       sprockets-sass (~> 1.2.0)
     mime-types (2.4.3)
     mini_portile (0.6.0)
-    minitest (5.4.2)
+    minitest (5.5.0)
     multi_json (1.10.1)
     multi_xml (0.5.5)
     net-scp (1.2.1)
       net-ssh (>= 2.6.5)
     net-ssh (2.9.1)
-    nokogiri (1.6.3.1)
-      mini_portile (= 0.6.0)
+    nokogiri (1.6.5)
+      mini_portile (~> 0.6.0)
     padrino-helpers (0.12.4)
       i18n (~> 0.6, >= 0.6.7)
       padrino-support (= 0.12.4)
@@ -172,9 +205,9 @@ GEM
     rb-fsevent (0.9.4)
     rb-inotify (0.9.5)
       ffi (>= 0.5.0)
-    ruby-progressbar (1.6.1)
+    ruby-progressbar (1.7.0)
     safe_yaml (1.0.4)
-    sass (3.4.7)
+    sass (3.4.9)
     slim (2.1.0)
       temple (~> 0.6.9)
       tilt (>= 1.3.3, < 2.1)
@@ -196,8 +229,8 @@ GEM
       hitimes
     tzinfo (1.2.2)
       thread_safe (~> 0.1)
-    uber (0.0.10)
-    uglifier (2.5.3)
+    uber (0.0.11)
+    uglifier (2.6.0)
       execjs (>= 0.3.0)
       json (>= 1.8.0)
     unf (0.1.4)
