@@ -19,8 +19,6 @@ GEM
       jmespath (~> 1.0)
       multi_json (~> 1.0)
       multi_xml (~> 0.5)
-    aws-sdk-resources (2.0.17.pre)
-      aws-sdk-core (= 2.0.17)
     builder (3.2.2)
     celluloid (0.16.0)
       timers (~> 4.0.0)
@@ -242,7 +240,7 @@ PLATFORMS
 
 DEPENDENCIES
   akabei (>= 0.4.0)
-  aws-sdk-resources
+  aws-sdk-core
   dotenv
   middleman
   middleman-livereload
