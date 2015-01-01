@@ -10,15 +10,17 @@ arch=('i686' 'x86_64')
 url="http://www.gnu.org/software/global/"
 license=('GPL')
 depends=('libltdl' 'bash' 'perl')
+makedepends=('python2')
 optdepends=('idutils' 'ctags' 'python2-pygments')
 options=(!emptydirs !libtool)
 install=global.install
-source=(http://tamacom.com/global/${pkgname}-${pkgver}.tar.gz)
+source=(http://tamacom.com/global/${pkgname}-${pkgver}.tar.gz
+        fix-gozilla-makefile.patch)
 
 prepare() {
     cd "${srcdir}/${pkgname}-${pkgver}"
     sed -i 's/\.la/.so/g' gtags.conf.in
-    patch -Np0 < ../../fix-gozilla-makefile.patch
+    patch -Np0 -i "${srcdir}/fix-gozilla-makefile.patch"
 }
 
 build() {
@@ -40,5 +42,7 @@ package() {
 	ln -s ../../gtags/gtags.el "${pkgdir}/usr/share/emacs/site-lisp/gtags.el"
 }
 
-md5sums=('bef48c9e6bd7aa78eef984932df1bc6c')
-sha256sums=('dd05090c0ab1e41cb79f60796b760a81ca33af4486b3707a3ec749265e430249')
+md5sums=('bef48c9e6bd7aa78eef984932df1bc6c'
+         '41cc0ea1a3866c672f7861101eb2a387')
+sha256sums=('dd05090c0ab1e41cb79f60796b760a81ca33af4486b3707a3ec749265e430249'
+            'c146d8be2c4e793175dce2b9dc266b5a1704ae7025a414d7cade062573f01441')
