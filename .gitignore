@@ -23,4 +23,5 @@ sources
 logs
 /aur-eagletmt/aur-eagletmt
 /vim-latest/vim-latest
+/ruby-trunk/ruby-trunk
 .AURINFO
