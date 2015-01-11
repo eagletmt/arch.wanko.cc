@@ -1,7 +1,7 @@
 # Maintainer: Kohei Suzuki <eagletmt@gmail.com>
 
-_commit=8ed8e0ba417390c117763073c44ebe45eb8afa68
-_revision=49204
+_commit=cb95d38a7ab559483b99a8276717ded137d2d1f8
+_revision=49214
 _baseversion=2.3.0
 pkgname='ruby-trunk'
 pkgver=${_baseversion}r${_revision}
@@ -59,5 +59,5 @@ package() {
   install -D -m644 BSDL "${pkgdir}/usr/share/licenses/ruby/BSDL"
 }
 
-sha1sums=('bc4dcd3c41b67b0975ebf0075e8c3fda7e3e2819'
+sha1sums=('b978079dfe3d987b113f3f76d10562d7d6eed970'
           'de4b760b7e2cd9af88ca67536ce37b950f1ee514')
