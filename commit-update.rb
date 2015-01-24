@@ -1,4 +1,6 @@
 #!/usr/bin/env ruby
+ENV['BUNDLE_GEMFILE'] ||= File.expand_path('Gemfile', __dir__)
+require 'bundler/setup'
 require 'pathname'
 require 'open3'
 require 'rugged'
