@@ -22,7 +22,7 @@ class PKGBUILD
   end
 end
 
-repo = Rugged::Repository.new(__dir__)
+repo = Rugged::Repository.discover('.')
 index = repo.index
 modified_entries = []
 index.each do |entry|
