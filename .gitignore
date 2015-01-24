@@ -25,3 +25,4 @@ logs
 /vim-latest/vim-latest
 /ruby-trunk/ruby-trunk
 .AURINFO
+.SRCINFO
