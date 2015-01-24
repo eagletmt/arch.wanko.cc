@@ -1,4 +1,5 @@
 #!/usr/bin/env ruby
+require 'digest'
 require 'erb'
 require 'json'
 require 'net/http'
@@ -28,6 +29,13 @@ end
 
 commit_sha = head_commit['sha']
 commit_revision = extract_revision(head_commit['commit']['message'])
+
+url = "https://github.com/ruby/ruby/archive/#{commit_sha}.tar.gz"
+dest = Pathname.new(__dir__).join('sources', "ruby-r#{commit_revision}.tar.gz")
+unless system('curl', '-vL', '-o', dest.to_s, url)
+  abort "curl error"
+end
+source_digest_sha1 = Digest::SHA1.file(dest.to_s).hexdigest
 
 pkgbuild = Pathname.new(__dir__).join('PKGBUILDs', pkgname, 'PKGBUILD')
 pkgbuild.open('w') do |f|
@@ -96,3 +104,5 @@ package() {
   install -D -m644 BSDL "${pkgdir}/usr/share/licenses/ruby/BSDL"
 }
 
+sha1sums=('<%= source_digest_sha1 %>'
+          'de4b760b7e2cd9af88ca67536ce37b950f1ee514')

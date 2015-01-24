@@ -1,4 +1,5 @@
 #!/usr/bin/env ruby
+require 'digest'
 require 'erb'
 require 'json'
 require 'net/http'
@@ -51,6 +52,15 @@ else
   raise "Malformed tag name: #{tag}"
 end
 
+version = "#{baseversion}.#{patchlevel}"
+tag = version.gsub('.', '-')
+url = "https://github.com/vim-jp/vim/archive/v#{tag}.tar.gz"
+dest = Pathname.new(__dir__).join('sources', "vim-#{version}.tar.gz")
+unless system('curl', '-vL', '-o', dest.to_s, url)
+  abort "curl error"
+end
+
+source_digest_sha1 = Digest::SHA1.file(dest.to_s).hexdigest
 pkgbuild = Pathname.new(__dir__).join('PKGBUILDs', pkgname, 'PKGBUILD')
 pkgbuild.open('w') do |f|
   f.puts ERB.new(DATA.read, nil, '-').result(binding)
@@ -132,3 +142,4 @@ check() {
 
 # vim:set ts=2 sw=2 et:
 
+sha1sums=('<%= source_digest_sha1 %>')
