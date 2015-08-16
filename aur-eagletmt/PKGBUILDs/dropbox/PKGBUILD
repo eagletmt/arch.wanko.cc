@@ -3,42 +3,46 @@
 # Contributor: David Manouchehri <d@32t.ca>
 
 pkgname=dropbox
-pkgver=3.8.5
+pkgver=3.8.8
 pkgrel=1
 pkgdesc="A free service that lets you bring your photos, docs, and videos anywhere and share them easily."
 arch=("i686" "x86_64")
 url="http://www.dropbox.com"
 license=(custom)
-depends=("dbus-glib" "gtk2" "libsm")
+depends=("libsm" "libxslt" "libxmu")
 optdepends=(
     'ufw-extras: ufw rules for dropbox'
 )
 conflicts=("dropbox-experimental")
 options=('!strip' '!upx')
 
-_source_arch="x86"
-[ "$CARCH" = "x86_64" ] && _source_arch="x86_64"
-
-sha512sums=('764e1af8255554c10792bbbebe3a97bb902e04870b7de0823b9a34d4c58b20d817ef1d10afc964d110f9972024dc779e0b88f473bb79a9252b51c4d05b16dab5'
-            'b1a2ca11479c9f243c0368d79b36ef87910311af2dd126a3291438083544ed10a640143a58e73be1d27bf016c114e668ea504ed6eed6955370bfcac309e5fb7d'
-            'b3e0701afe90693b99d5e23bad6b8637bc27611a42c695d12b3b990d98bf010371b266322cd54c60ffd654ed44f56a85b1fcb51b30db991af60043dc22bf1897'
-            'f688115daa8930dffd6e27a7113b137972c20918297c6178bb7e8f820add325d34d452f8bf6bb73fa6b2de73ffa028d27457ed2df390687af8841d9425ebab3e'
-            'b08a50766681a55e3bf9f1721549218996dd4dbef183dce4967622a98a52fdcc47325de99794b40462692213bbe390f659cf48023b407ae4fce81997af4d46e2')
-[ "$CARCH" = "x86_64" ] && sha512sums[0]='854c9793607fceef42049839d9b5923fb00f27a28c2df0786350741231d44e5972568f51095c4c31c6c867f3624f350fa3916f8c6f39f7ed3fa478b088e1ea26'
-
-source=("https://dl-web.dropbox.com/u/17/${pkgname}-lnx.${_source_arch}-${pkgver}.tar.gz"
-        "dropbox.png"
+source=("dropbox.png"
         "dropbox.desktop"
         "terms.txt"
-        "dropbox.service")
+        "dropbox.service"
+        "dropbox@.service")
+source_i686=("https://dl-web.dropbox.com/u/17/${pkgname}-lnx.x86-${pkgver}.tar.gz")
+source_x86_64=("https://dl-web.dropbox.com/u/17/${pkgname}-lnx.x86_64-${pkgver}.tar.gz")
+
+sha512sums=('b1a2ca11479c9f243c0368d79b36ef87910311af2dd126a3291438083544ed10a640143a58e73be1d27bf016c114e668ea504ed6eed6955370bfcac309e5fb7d'
+            'b3e0701afe90693b99d5e23bad6b8637bc27611a42c695d12b3b990d98bf010371b266322cd54c60ffd654ed44f56a85b1fcb51b30db991af60043dc22bf1897'
+            'f688115daa8930dffd6e27a7113b137972c20918297c6178bb7e8f820add325d34d452f8bf6bb73fa6b2de73ffa028d27457ed2df390687af8841d9425ebab3e'
+            '582ed9efef6191b9b21adbd3af6ce3becf43bb4f5f97ab501c110ceb7ca0712a6b7c7ea6c2eb2a302472df9aa3ea8fb24bf42a3f7d7a75030dc143464397ec96'
+            'de2c2e40fda8b5fce7be58971845016c776aec9d51da5a732b6ebb617e51ae6707df6fdea4119e59b54e7192a1db90625fffc97da445189a8707808179a7f210')
+sha512sums_i686=('2d99a80eb4c1668defcfc96e087dd1b8b4adca33d4726b3813ff8d9ee22a03c0b6d151c493da7410193d9c2fc20ba5514965f9210dea3c91b8c3c472d22826c7')
+sha512sums_x86_64=('a8e9bc44bf7bc95f2b6015235236ee9a6937ceadbede733d2ed4f7bff886cc39b39bb26621a75e94d4b959bc2ae5cd0085403458a49bbe8fb991b204ed4414d9')
 
 package() {
+	_source_arch="x86"
+	[ "$CARCH" = "x86_64" ] && _source_arch="x86_64"
+
 	install -d "$pkgdir/opt"
 	cp -R "$srcdir/.dropbox-dist" "$pkgdir/opt/dropbox"
 
 	find "$pkgdir/opt/dropbox/" -type f -exec chmod 644 {} \;
 	chmod 755 "$pkgdir/opt/dropbox/dropboxd"
 	chmod 755 "$pkgdir/opt/dropbox/dropbox-lnx.${_source_arch}-${pkgver}/dropbox"
+	chmod 755 "$pkgdir/opt/dropbox/dropbox-lnx.${_source_arch}-${pkgver}/dropboxd"
 
 	install -d "$pkgdir/usr/bin"
 	ln -s "/opt/dropbox/dropboxd" "$pkgdir/usr/bin/dropboxd"
@@ -46,5 +50,6 @@ package() {
 	install -Dm644 "$srcdir/dropbox.desktop" "$pkgdir/usr/share/applications/dropbox.desktop"
 	install -Dm644 "$srcdir/dropbox.png" "$pkgdir/usr/share/pixmaps/dropbox.png"
 	install -Dm644 "$srcdir/terms.txt" "$pkgdir/usr/share/licenses/$pkgname/terms.txt"
-	install -Dm644 "$srcdir/dropbox.service" "$pkgdir/usr/lib/systemd/system/dropbox@.service"
+	install -Dm644 "$srcdir/dropbox.service" "$pkgdir/usr/lib/systemd/system/dropbox.service"
+	install -Dm644 "$srcdir/dropbox@.service" "$pkgdir/usr/lib/systemd/system/dropbox@.service"
 }
