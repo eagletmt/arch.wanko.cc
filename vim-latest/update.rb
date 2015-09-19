@@ -6,7 +6,7 @@ require 'net/http'
 require 'openssl'
 require 'pathname'
 
-owner = 'vim-jp'
+owner = 'vim'
 repo = 'vim'
 pkgname = 'vim-latest'
 
@@ -45,7 +45,7 @@ tag = https.start do
   find_latest_tag(all_tags, JSON.parse(res.body))
 end
 
-if m = tag.match(/\Av(\d+)-(\d+)-(\d+)/)
+if m = tag.match(/\Av(\d+).(\d+).(\d+)/)
   baseversion = "#{m[1]}.#{m[2]}"
   patchlevel = m[3]
 else
@@ -53,8 +53,7 @@ else
 end
 
 version = "#{baseversion}.#{patchlevel}"
-tag = version.gsub('.', '-')
-url = "https://github.com/vim-jp/vim/archive/v#{tag}.tar.gz"
+url = "https://github.com/#{owner}/#{repo}/archive/#{tag}.tar.gz"
 dest = Pathname.new(__dir__).join('sources', "vim-#{version}.tar.gz")
 unless system('curl', '-vL', '-o', dest.to_s, url)
   abort "curl error"
@@ -82,11 +81,10 @@ depends=('gpm')
 makedepends=('perl' 'python' 'python2' 'ruby' 'luajit')
 conflicts=(vim vim-runtime)
 provides=(vim=$pkgver vim-runtime=$pkgver)
-_tag=${_baseversion/./-}-${_patchlevel}
-source=(vim-$pkgver.tar.gz::https://github.com/vim-jp/vim/archive/v$_tag.tar.gz)
+source=(vim-$pkgver.tar.gz::https://github.com/<%= owner %>/<%= repo %>/archive/v$pkgver.tar.gz)
 
 prepare() {
-  cd "$srcdir/vim-$_tag"
+  cd "$srcdir/vim-$pkgver"
 
   sed -i 's|set dummy python;|set dummy python2;|g' src/auto/configure
   sed -i 's|^.*\(#define SYS_.*VIMRC_FILE.*"\) .*$|\1|' src/feature.h
@@ -95,7 +93,7 @@ prepare() {
 
 build()
 {
-  cd "$srcdir/vim-$_tag"
+  cd "$srcdir/vim-$pkgver"
 
   ./configure --prefix=/usr --localstatedir=/var/lib/vim --mandir=/usr/share/man \
   --with-features=huge --enable-gpm --enable-acl --with-x=no --disable-gui \
@@ -109,7 +107,7 @@ build()
 }
 
 package() {
-  cd "$srcdir/vim-$_tag"
+  cd "$srcdir/vim-$pkgver"
   make VIMRCLOC=/etc DESTDIR="$pkgdir" install
 
   cd "$pkgdir/usr/bin"
@@ -136,7 +134,7 @@ package() {
 }
 
 check() {
-  cd "$srcdir/vim-$_tag"
+  cd "$srcdir/vim-$pkgver"
   make -j1 test
 }
 
