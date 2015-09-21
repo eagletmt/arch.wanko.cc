@@ -7,7 +7,7 @@
 _pkgname=htop
 pkgname=htop-vi
 pkgver=1.0.3
-pkgrel=1
+pkgrel=2
 pkgdesc="Interactive process viewer patched for vi style scroll keys"
 arch=('i686' 'x86_64')
 url="http://htop.sourceforge.net/"
