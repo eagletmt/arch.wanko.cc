@@ -1,0 +1,8 @@
+1.5-2:
+add oniguruma for regexp support
+
+1.5-1:
+upstream update
+
+1.4-1:
+move from AUR into [community]
