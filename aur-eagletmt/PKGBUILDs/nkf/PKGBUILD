@@ -10,6 +10,7 @@ license=('custom:zlib')
 depends=('glibc')
 source=(http://dl.sourceforge.jp/nkf/59912/${pkgname}-${pkgver}.tar.gz)
 md5sums=('fb234b60f039f8df1c6b96a4287771ff')
+sha256sums=('8cb430ae69a1ad58b522eb4927b337b5b420bbaeb69df255919019dc64b72fc2')
 
 build() {
   cd ${srcdir}/${pkgname}-${pkgver}
