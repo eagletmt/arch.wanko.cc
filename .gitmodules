@@ -13,3 +13,6 @@
 [submodule "aur-eagletmt/PKGBUILDs/rxvt-unicode-pixbuf"]
 	path = aur-eagletmt/PKGBUILDs/rxvt-unicode-pixbuf
 	url = https://aur.archlinux.org/rxvt-unicode-pixbuf
+[submodule "aur-eagletmt/PKGBUILDs/zabbix-agent"]
+	path = aur-eagletmt/PKGBUILDs/zabbix-agent
+	url = https://aur.archlinux.org/zabbix-agent
