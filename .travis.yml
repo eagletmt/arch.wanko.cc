@@ -1,5 +1,6 @@
 language: ruby
 rvm: 2.2
+sudo: false
 addons:
   apt:
     packages:
