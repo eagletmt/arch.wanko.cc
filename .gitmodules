@@ -1,0 +1,3 @@
+[submodule "aur-eagletmt/PKGBUILDs/ghq"]
+	path = aur-eagletmt/PKGBUILDs/ghq
+	url = https://aur.archlinux.org/ghq
