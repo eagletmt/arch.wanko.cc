@@ -48,7 +48,7 @@
 ###
 # Gem
 ###
-require 'slim'
+require 'haml'
 
 set :css_dir, 'stylesheets'
 
