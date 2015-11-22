@@ -10,3 +10,6 @@
 [submodule "aur-eagletmt/PKGBUILDs/nkf"]
 	path = aur-eagletmt/PKGBUILDs/nkf
 	url = https://aur.archlinux.org/nkf
+[submodule "aur-eagletmt/PKGBUILDs/rxvt-unicode-pixbuf"]
+	path = aur-eagletmt/PKGBUILDs/rxvt-unicode-pixbuf
+	url = https://aur.archlinux.org/rxvt-unicode-pixbuf
