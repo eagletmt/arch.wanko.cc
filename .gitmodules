@@ -16,3 +16,6 @@
 [submodule "aur-eagletmt/PKGBUILDs/zabbix-agent"]
 	path = aur-eagletmt/PKGBUILDs/zabbix-agent
 	url = https://aur.archlinux.org/zabbix-agent
+[submodule "aur-eagletmt/PKGBUILDs/zabbix-server"]
+	path = aur-eagletmt/PKGBUILDs/zabbix-server
+	url = https://aur.archlinux.org/zabbix-server
