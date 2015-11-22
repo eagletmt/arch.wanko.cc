@@ -110,11 +110,11 @@ GEM
       em-websocket (~> 0.5.1)
       middleman-core (>= 3.3)
       rack-livereload (~> 0.3.15)
-    middleman-s3_sync (4.0.0)
+    middleman-s3_sync (3.3.4)
       ansi (~> 1.5.0)
       fog-aws (>= 0.1.1)
       map
-      middleman-core (>= 3.3.0)
+      middleman-core (~> 3.3)
       parallel
       ruby-progressbar
       unf
@@ -185,7 +185,7 @@ DEPENDENCIES
   haml
   middleman
   middleman-livereload
-  middleman-s3_sync
+  middleman-s3_sync (< 4.0.0)
   rugged
   wdm (~> 0.1.0)
 
