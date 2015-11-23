@@ -28,3 +28,6 @@
 [submodule "aur-eagletmt/PKGBUILDs/pt1_drv-dkms-hg"]
 	path = aur-eagletmt/PKGBUILDs/pt1_drv-dkms-hg
 	url = https://aur.archlinux.org/pt1_drv-dkms-hg
+[submodule "aur-eagletmt/PKGBUILDs/pt3_drv-dkms-git"]
+	path = aur-eagletmt/PKGBUILDs/pt3_drv-dkms-git
+	url = https://aur.archlinux.org/pt3_drv-dkms-git
