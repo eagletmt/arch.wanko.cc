@@ -22,3 +22,6 @@
 [submodule "aur-eagletmt/PKGBUILDs/yaskkserv"]
 	path = aur-eagletmt/PKGBUILDs/yaskkserv
 	url = https://aur.archlinux.org/yaskkserv
+[submodule "aur-eagletmt/PKGBUILDs/dropbox"]
+	path = aur-eagletmt/PKGBUILDs/dropbox
+	url = https://aur.archlinux.org/dropbox
