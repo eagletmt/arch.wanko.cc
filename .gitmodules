@@ -25,3 +25,6 @@
 [submodule "aur-eagletmt/PKGBUILDs/dropbox"]
 	path = aur-eagletmt/PKGBUILDs/dropbox
 	url = https://aur.archlinux.org/dropbox
+[submodule "aur-eagletmt/PKGBUILDs/pt1_drv-dkms-hg"]
+	path = aur-eagletmt/PKGBUILDs/pt1_drv-dkms-hg
+	url = https://aur.archlinux.org/pt1_drv-dkms-hg
