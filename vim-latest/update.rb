@@ -55,6 +55,7 @@ end
 version = "#{baseversion}.#{patchlevel}"
 url = "https://github.com/#{owner}/#{repo}/archive/#{tag}.tar.gz"
 dest = Pathname.new(__dir__).join('sources', "vim-#{version}.tar.gz")
+dest.parent.mkpath
 unless system('curl', '-vL', '-o', dest.to_s, url)
   abort "curl error"
 end

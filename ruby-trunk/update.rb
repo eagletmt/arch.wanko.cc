@@ -32,6 +32,7 @@ commit_revision = extract_revision(head_commit['commit']['message'])
 
 url = "https://github.com/ruby/ruby/archive/#{commit_sha}.tar.gz"
 dest = Pathname.new(__dir__).join('sources', "ruby-r#{commit_revision}.tar.gz")
+dest.parent.mkpath
 unless system('curl', '-vL', '-o', dest.to_s, url)
   abort "curl error"
 end
