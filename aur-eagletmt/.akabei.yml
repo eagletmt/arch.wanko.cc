@@ -1,0 +1,19 @@
+---
+name: aur-eagletmt
+package_key: C48DBD97
+repo_key: C48DBD97
+srcdest: sources
+logdest: logs
+pkgbuild: PKGBUILDs
+builds:
+  i686:
+    makepkg: etc/makepkg.i686.conf
+    pacman: etc/pacman.i686.conf
+  x86_64:
+    makepkg: etc/makepkg.x86_64.conf
+    pacman: etc/pacman.x86_64.conf
+s3:
+  bucket: arch.wanko.cc
+  region: ap-northeast-1
+  write_options:
+    :storage_class: REDUCED_REDUNDANCY
