@@ -22,30 +22,69 @@ class PKGBUILD
   end
 end
 
-repo = Rugged::Repository.discover('.')
-index = repo.index
-modified_entries = []
-index.each do |entry|
-  path = entry[:path]
-  if repo.status(path).include?(:index_modified) && File.basename(path) == 'PKGBUILD'
-    modified_entries << entry
+Result = Struct.new(:pkgname, :old_pkgbuild, :new_pkgbuild)
+
+def find_modified_pkgbuild(repo)
+  modified_entries = []
+  repo.index.each do |entry|
+    path = entry[:path]
+    if repo.status(path).include?(:index_modified) && File.basename(path) == 'PKGBUILD'
+      modified_entries << entry
+    end
+  end
+
+  if modified_entries.empty?
+    return nil
+  elsif modified_entries.size > 1
+    abort 'Multiple PKGBUILDs are modified'
+  end
+  new_pkgbuild_entry = modified_entries.first
+
+  Result.new.tap do |r|
+    r.new_pkgbuild = repo.lookup(new_pkgbuild_entry[:oid]).content
+    old_pkgbuild_entry = repo.head.target.tree.path(new_pkgbuild_entry[:path])
+    r.old_pkgbuild = repo.lookup(old_pkgbuild_entry[:oid]).content
+    r.pkgname = Pathname.new(new_pkgbuild_entry[:path]).parent.basename.to_s
   end
 end
 
-if modified_entries.empty?
-  abort 'No PKGBUILD is modified'
-elsif modified_entries.size > 1
-  abort 'Multiple PKGBUILDs are modified'
+def find_modified_submodule(repo)
+  modified_submodules = []
+  repo.submodules.each do |submodule|
+    if submodule.modified_in_index?
+      modified_submodules << submodule
+    end
+  end
+
+  if modified_submodules.empty?
+    return nil
+  elsif modified_submodules.size > 1
+    abort 'Multiple submodules are modified'
+  end
+  submodule = modified_submodules.first
+
+  Result.new.tap do |r|
+    r.pkgname = Pathname.new(submodule.path).basename.to_s
+    submodule.repository.index.each do |entry|
+      if entry[:path] == 'PKGBUILD'
+        r.new_pkgbuild = submodule.repository.lookup(entry[:oid]).content
+        old_head_commit = submodule.repository.lookup(submodule.head_oid)
+        old_pkgbuild_entry =  old_head_commit.tree.path(entry[:path])
+        r.old_pkgbuild = submodule.repository.lookup(old_pkgbuild_entry[:oid]).content
+      end
+    end
+  end
 end
-new_pkgbuild_entry = modified_entries.first
 
-new_content = repo.lookup(new_pkgbuild_entry[:oid]).content
-old_pkgbuild_entry = repo.head.target.tree.path(new_pkgbuild_entry[:path])
-old_content = repo.lookup(old_pkgbuild_entry[:oid]).content
+repo = Rugged::Repository.discover('.')
+result = find_modified_pkgbuild(repo) || find_modified_submodule(repo)
 
-old_pkgver = PKGBUILD.new(old_content).pkgver
-new_pkgver = PKGBUILD.new(new_content).pkgver
-pkgname = Pathname.new(new_pkgbuild_entry[:path]).parent.basename.to_s
-message = "Update #{pkgname} #{old_pkgver} -> #{new_pkgver}"
+if result
+  old_pkgver = PKGBUILD.new(result.old_pkgbuild).pkgver
+  new_pkgver = PKGBUILD.new(result.new_pkgbuild).pkgver
+  message = "Update #{result.pkgname} #{old_pkgver} -> #{new_pkgver}"
 
-exec('git', 'commit', '-m', message)
+  exec('git', 'commit', '-m', message)
+else
+  abort 'No PKGBUILD is modified'
+end
