@@ -2,7 +2,7 @@
 # the following line to use "https"
 source 'https://rubygems.org'
 
-gem "middleman"
+gem "middleman", '< 4.0.0'
 gem "haml"
 
 # Live-reloading plugin
@@ -13,6 +13,6 @@ gem "wdm", "~> 0.1.0", :platforms => [:mswin, :mingw]
 
 gem 'dotenv'
 gem 'aws-sdk-core'
-gem 'akabei', '>= 0.4.0'
+gem 'akabei', '>= 0.5.0'
 gem 'middleman-s3_sync', '< 4.0.0'
 gem 'rugged'

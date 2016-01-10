@@ -9,9 +9,11 @@ builds:
   i686:
     makepkg: etc/makepkg.i686.conf
     pacman: etc/pacman.i686.conf
+    chroot: ../i686-root
   x86_64:
     makepkg: etc/makepkg.x86_64.conf
     pacman: etc/pacman.x86_64.conf
+    chroot: ../x86_64-root
 s3:
   bucket: arch.wanko.cc
   region: ap-northeast-1
