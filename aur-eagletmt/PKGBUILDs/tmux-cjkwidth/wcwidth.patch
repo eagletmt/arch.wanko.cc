@@ -1,7 +1,7 @@
-diff -ur tmux-2.0.orig/server.c tmux-2.0/server.c
---- tmux-2.0.orig/server.c	2015-05-06 05:21:51.000000000 +0900
-+++ tmux-2.0/server.c	2015-05-17 22:54:02.752976872 +0900
-@@ -147,7 +147,6 @@
+diff -ur tmux-2.1.orig/server.c tmux-2.1/server.c
+--- tmux-2.1.orig/server.c	2015-10-17 20:03:29.000000000 +0900
++++ tmux-2.1/server.c	2016-01-10 23:41:30.760115528 +0900
+@@ -199,7 +199,6 @@
  	TAILQ_INIT(&session_groups);
  	mode_key_init_trees();
  	key_bindings_init();
@@ -9,21 +9,21 @@ diff -ur tmux-2.0.orig/server.c tmux-2.0/server.c
  
  	start_time = time(NULL);
  	log_debug("socket path %s", socket_path);
-diff -ur tmux-2.0.orig/tmux.c tmux-2.0/tmux.c
---- tmux-2.0.orig/tmux.c	2015-05-04 00:43:34.000000000 +0900
-+++ tmux-2.0/tmux.c	2015-05-17 22:54:02.752976872 +0900
-@@ -216,6 +216,7 @@
+diff -ur tmux-2.1.orig/tmux.c tmux-2.1/tmux.c
+--- tmux-2.1.orig/tmux.c	2015-10-17 20:03:29.000000000 +0900
++++ tmux-2.1/tmux.c	2016-01-10 23:43:31.373450308 +0900
+@@ -202,6 +202,7 @@
  #endif
  
  	setlocale(LC_TIME, "");
-+	setlocale(LC_CTYPE, "");
++ 	setlocale(LC_CTYPE, "");
+ 	tzset();
  
- 	flags = 0;
- 	label = path = NULL;
-diff -ur tmux-2.0.orig/tmux.h tmux-2.0/tmux.h
---- tmux-2.0.orig/tmux.h	2015-05-06 05:21:51.000000000 +0900
-+++ tmux-2.0/tmux.h	2015-05-17 22:55:17.316799639 +0900
-@@ -2293,7 +2293,6 @@
+ 	if (**argv == '-')
+diff -ur tmux-2.1.orig/tmux.h tmux-2.1/tmux.h
+--- tmux-2.1.orig/tmux.h	2015-09-27 18:51:49.000000000 +0900
++++ tmux-2.1/tmux.h	2016-01-10 23:41:30.763448861 +0900
+@@ -2171,7 +2171,6 @@
  void		 session_renumber_windows(struct session *);
  
  /* utf8.c */
@@ -31,9 +31,9 @@ diff -ur tmux-2.0.orig/tmux.h tmux-2.0/tmux.h
  void		 utf8_set(struct utf8_data *, u_char);
  int		 utf8_open(struct utf8_data *, u_char);
  int		 utf8_append(struct utf8_data *, u_char);
-diff -ur tmux-2.0.orig/utf8.c tmux-2.0/utf8.c
---- tmux-2.0.orig/utf8.c	2015-05-06 05:21:51.000000000 +0900
-+++ tmux-2.0/utf8.c	2015-05-17 22:54:30.266490778 +0900
+diff -ur tmux-2.1.orig/utf8.c tmux-2.1/utf8.c
+--- tmux-2.1.orig/utf8.c	2015-09-27 18:42:08.000000000 +0900
++++ tmux-2.1/utf8.c	2016-01-10 23:42:25.446782850 +0900
 @@ -20,184 +20,10 @@
  
  #include <stdlib.h>
@@ -258,9 +258,9 @@ diff -ur tmux-2.0.orig/utf8.c tmux-2.0/utf8.c
 -		while (*ptr != NULL) {
 -			node = *ptr;
 -			if (item->last < node->first)
--				ptr = &(node->left);
+-				ptr = &node->left;
 -			else if (item->first > node->last)
--				ptr = &(node->right);
+-				ptr = &node->right;
 -		}
 -		*ptr = item;
 -	}
