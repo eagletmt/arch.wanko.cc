@@ -96,12 +96,11 @@ build()
 {
   cd "$srcdir/vim-$pkgver"
 
+  # https://github.com/vim-jp/issues/issues/783
   ./configure --prefix=/usr --localstatedir=/var/lib/vim --mandir=/usr/share/man \
   --with-features=huge --enable-gpm --enable-acl --with-x=no --disable-gui \
   --enable-multibyte --enable-cscope \
-  # https://github.com/vim-jp/issues/issues/783
-  # --enable-perlinterp=dynamic --enable-pythoninterp=yes --enable-python3interp=yes \
-  --enable-perlinterp=dynamic --enable-pythoninterp=yes \
+  --enable-perlinterp=dynamic --enable-pythoninterp=yes --enable-python3interp=no \
   --enable-rubyinterp=dynamic --enable-luainterp=dynamic --with-luajit \
   --with-compiledby='Kohei Suzuki <eagletmt@gmail.com>' \
   --disable-smack
