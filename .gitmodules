@@ -4,9 +4,6 @@
 [submodule "aur-eagletmt/PKGBUILDs/global"]
 	path = aur-eagletmt/PKGBUILDs/global
 	url = https://aur.archlinux.org/global
-[submodule "aur-eagletmt/PKGBUILDs/nginx-mainline"]
-	path = aur-eagletmt/PKGBUILDs/nginx-mainline
-	url = https://aur.archlinux.org/nginx-mainline
 [submodule "aur-eagletmt/PKGBUILDs/nkf"]
 	path = aur-eagletmt/PKGBUILDs/nkf
 	url = https://aur.archlinux.org/nkf
