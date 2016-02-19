@@ -4,7 +4,7 @@ require 'bundler/setup'
 require 'rugged'
 
 def show_submodule_diff(submodule)
-  system('git', '--git-dir', submodule.repository.path, 'diff', submodule.head_oid, submodule.repository.head.target.oid)
+  system({'LESS' => 'RX'}, 'git', '--paginate', '--git-dir', submodule.repository.path, 'diff', submodule.head_oid, submodule.repository.head.target.oid)
 end
 
 repo = Rugged::Repository.discover('.')
