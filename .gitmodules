@@ -28,3 +28,6 @@
 [submodule "aur-eagletmt/PKGBUILDs/pt3_drv-dkms-git"]
 	path = aur-eagletmt/PKGBUILDs/pt3_drv-dkms-git
 	url = https://aur.archlinux.org/pt3_drv-dkms-git
+[submodule "aur-eagletmt/PKGBUILDs/mlterm"]
+	path = aur-eagletmt/PKGBUILDs/mlterm
+	url = https://aur.archlinux.org/mlterm
