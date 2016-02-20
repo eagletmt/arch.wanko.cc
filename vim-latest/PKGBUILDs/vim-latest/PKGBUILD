@@ -2,7 +2,7 @@
 
 pkgname=vim-latest
 _baseversion=7.4
-_patchlevel=1194
+_patchlevel=1368
 pkgver=${_baseversion}.${_patchlevel}
 pkgrel=1
 pkgdesc='Vi Improved, a highly configurable, improved version of the vi text editor'
@@ -73,4 +73,4 @@ check() {
 
 # vim:set ts=2 sw=2 et:
 
-sha1sums=('10bb23ff592e4ad6ca77e1e31b5034c62b84cdf8')
+sha1sums=('5cfd3871a035eb5a75156096cbf5f8860878b17c')
