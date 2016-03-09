@@ -49,6 +49,7 @@
 # Gem
 ###
 require 'haml'
+set :haml, { ugly: true }
 
 set :css_dir, 'stylesheets'
 
