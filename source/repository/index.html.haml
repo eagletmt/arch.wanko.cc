@@ -5,14 +5,16 @@
 .panel.panel-default
   .panel-heading Setup
   .panel-body
-    :markdown
-      Before using this repository, import and trust [my GPG key](https://wanko.cc/gpg.html).
-
+    %p Before using this repository, import and trust #{link_to 'my GPG key', 'https://wanko.cc/gpg.html'}.
+    %pre
+      %code
+        :preserve
           # pacman-key --recv-keys C48DBD97
           # pacman-key --lsign-key C48DBD97
-
-      Add the following setting to your /etc/pacman.conf.
-
+    %p Add the following setting to your /etc/pacman.conf.
+    %pre
+      %code
+        :preserve
           [#{repo_name}]
           SigLevel = Required
           Server = http://arch.wanko.cc/$repo/os/$arch
