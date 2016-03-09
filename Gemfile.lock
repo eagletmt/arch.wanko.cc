@@ -39,7 +39,7 @@ GEM
       sass (>= 3.3.0, < 3.5)
     compass-import-once (1.0.5)
       sass (>= 3.2, < 3.5)
-    dotenv (2.1.0)
+    denv (0.2.3)
     em-websocket (0.5.1)
       eventmachine (>= 0.12.9)
       http_parser.rb (~> 0.6.0)
@@ -182,13 +182,12 @@ PLATFORMS
 DEPENDENCIES
   akabei (>= 0.5.0)
   aws-sdk-core
-  dotenv
+  denv
   haml
   middleman (< 4.0.0)
   middleman-livereload
   middleman-s3_sync (< 4.0.0)
   rugged
-  wdm (~> 0.1.0)
 
 BUNDLED WITH
    1.11.2

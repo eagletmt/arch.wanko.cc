@@ -56,8 +56,8 @@ set :js_dir, 'javascripts'
 
 set :images_dir, 'images'
 
-require 'dotenv'
-Dotenv.load!
+require 'denv'
+Denv.load
 
 require 'tempfile'
 require 'aws-sdk-core'
