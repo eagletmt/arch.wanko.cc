@@ -2,7 +2,7 @@
 
 pkgname=vim-latest
 _baseversion=7.4
-_patchlevel=1368
+_patchlevel=1545
 pkgver=${_baseversion}.${_patchlevel}
 pkgrel=1
 pkgdesc='Vi Improved, a highly configurable, improved version of the vi text editor'
@@ -27,14 +27,13 @@ build()
 {
   cd "$srcdir/vim-$pkgver"
 
-  # https://github.com/vim-jp/issues/issues/783
   ./configure --prefix=/usr --localstatedir=/var/lib/vim --mandir=/usr/share/man \
-  --with-features=huge --enable-gpm --enable-acl --with-x=no --disable-gui \
-  --enable-multibyte --enable-cscope \
-  --enable-perlinterp=dynamic --enable-pythoninterp=yes --enable-python3interp=no \
-  --enable-rubyinterp=dynamic --enable-luainterp=dynamic --with-luajit \
-  --with-compiledby='Kohei Suzuki <eagletmt@gmail.com>' \
-  --disable-smack
+    --with-features=huge --enable-gpm --enable-acl --with-x=no --disable-gui \
+    --enable-multibyte --enable-cscope \
+    --enable-perlinterp=dynamic --enable-pythoninterp=dynamic --enable-python3interp=dynamic \
+    --enable-rubyinterp=dynamic --enable-luainterp=dynamic --with-luajit \
+    --with-compiledby='Kohei Suzuki <eagletmt@gmail.com>' \
+    --disable-smack
 
   make
 }
@@ -73,4 +72,4 @@ check() {
 
 # vim:set ts=2 sw=2 et:
 
-sha1sums=('5cfd3871a035eb5a75156096cbf5f8860878b17c')
+sha1sums=('a2e75323cb4c524edb06363b5751b89d0a8c7faa')
