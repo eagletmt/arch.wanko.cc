@@ -31,3 +31,6 @@
 [submodule "aur-eagletmt/PKGBUILDs/mlterm"]
 	path = aur-eagletmt/PKGBUILDs/mlterm
 	url = https://aur.archlinux.org/mlterm
+[submodule "aur-eagletmt/PKGBUILDs/envchain"]
+	path = aur-eagletmt/PKGBUILDs/envchain
+	url = https://aur.archlinux.org/envchain.git
