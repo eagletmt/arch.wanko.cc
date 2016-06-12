@@ -25,6 +25,7 @@ logs
 /ruby-trunk/ruby-trunk
 .AURINFO
 .SRCINFO
+*.pkg.tar.xz
 
 /i686-root
 /x86_64-root
