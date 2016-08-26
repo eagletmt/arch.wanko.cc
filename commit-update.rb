@@ -51,7 +51,7 @@ end
 def find_modified_submodule(repo)
   modified_submodules = []
   repo.submodules.each do |submodule|
-    if submodule.modified_in_index?
+    if submodule.modified_in_index? || submodule.added_to_index?
       modified_submodules << submodule
     end
   end
@@ -68,9 +68,11 @@ def find_modified_submodule(repo)
     submodule.repository.index.each do |entry|
       if entry[:path] == 'PKGBUILD'
         r.new_pkgbuild = submodule.repository.lookup(entry[:oid]).content
-        old_head_commit = submodule.repository.lookup(submodule.head_oid)
-        old_pkgbuild_entry =  old_head_commit.tree.path(entry[:path])
-        r.old_pkgbuild = submodule.repository.lookup(old_pkgbuild_entry[:oid]).content
+        if submodule.head_oid
+          old_head_commit = submodule.repository.lookup(submodule.head_oid)
+          old_pkgbuild_entry =  old_head_commit.tree.path(entry[:path])
+          r.old_pkgbuild = submodule.repository.lookup(old_pkgbuild_entry[:oid]).content
+        end
       end
     end
   end
@@ -80,9 +82,14 @@ repo = Rugged::Repository.discover('.')
 result = find_modified_pkgbuild(repo) || find_modified_submodule(repo)
 
 if result
-  old_pkgver = PKGBUILD.new(result.old_pkgbuild).pkgver
   new_pkgver = PKGBUILD.new(result.new_pkgbuild).pkgver
-  message = "Update #{result.pkgname} #{old_pkgver} -> #{new_pkgver}"
+  message =
+    if result.old_pkgbuild
+      old_pkgver = PKGBUILD.new(result.old_pkgbuild).pkgver
+      "Update #{result.pkgname} #{old_pkgver} -> #{new_pkgver}"
+    else
+      "Add #{result.pkgname} #{new_pkgver}"
+    end
 
   exec('git', 'commit', '-m', message)
 else
