@@ -34,3 +34,6 @@
 [submodule "aur-eagletmt/PKGBUILDs/envchain"]
 	path = aur-eagletmt/PKGBUILDs/envchain
 	url = https://aur.archlinux.org/envchain.git
+[submodule "aur-eagletmt/PKGBUILDs/google-cloud-sdk"]
+	path = aur-eagletmt/PKGBUILDs/google-cloud-sdk
+	url = https://aur.archlinux.org/google-cloud-sdk.git
