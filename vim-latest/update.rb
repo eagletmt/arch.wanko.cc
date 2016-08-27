@@ -98,7 +98,7 @@ build()
 
   ./configure --prefix=/usr --localstatedir=/var/lib/vim --mandir=/usr/share/man \
     --with-features=huge --enable-gpm --enable-acl --with-x=no --disable-gui \
-    --enable-multibyte --enable-cscope \
+    --enable-multibyte --enable-cscope --disable-netbeans \
     --enable-perlinterp=dynamic --enable-pythoninterp=dynamic --enable-python3interp=dynamic \
     --enable-rubyinterp=dynamic --enable-luainterp=dynamic --with-luajit \
     --with-compiledby='Kohei Suzuki <eagletmt@gmail.com>' \
