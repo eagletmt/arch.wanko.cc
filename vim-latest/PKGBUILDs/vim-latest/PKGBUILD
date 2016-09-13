@@ -40,7 +40,7 @@ build()
 
 package() {
   cd "$srcdir/vim-$pkgver"
-  make VIMRCLOC=/etc DESTDIR="$pkgdir" install
+  make -j1 VIMRCLOC=/etc DESTDIR="$pkgdir" install
 
   cd "$pkgdir/usr/bin"
   rm ex view                # provided by (n)vi in core
