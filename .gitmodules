@@ -37,3 +37,6 @@
 [submodule "aur-eagletmt/PKGBUILDs/google-cloud-sdk"]
 	path = aur-eagletmt/PKGBUILDs/google-cloud-sdk
 	url = https://aur.archlinux.org/google-cloud-sdk.git
+[submodule "aur-eagletmt/PKGBUILDs/itamae"]
+	path = aur-eagletmt/PKGBUILDs/itamae
+	url = https://aur.archlinux.org/itamae.git
