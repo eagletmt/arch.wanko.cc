@@ -40,3 +40,6 @@
 [submodule "aur-eagletmt/PKGBUILDs/itamae"]
 	path = aur-eagletmt/PKGBUILDs/itamae
 	url = https://aur.archlinux.org/itamae.git
+[submodule "aur-eagletmt/PKGBUILDs/td-agent"]
+	path = aur-eagletmt/PKGBUILDs/td-agent
+	url = https://aur.archlinux.org/td-agent.git
