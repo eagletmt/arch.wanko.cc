@@ -43,3 +43,6 @@
 [submodule "aur-eagletmt/PKGBUILDs/td-agent"]
 	path = aur-eagletmt/PKGBUILDs/td-agent
 	url = https://aur.archlinux.org/td-agent.git
+[submodule "aur-eagletmt/PKGBUILDs/mysql56"]
+	path = aur-eagletmt/PKGBUILDs/mysql56
+	url = https://aur.archlinux.org/mysql56.git
