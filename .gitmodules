@@ -46,3 +46,6 @@
 [submodule "aur-eagletmt/PKGBUILDs/mysql56"]
 	path = aur-eagletmt/PKGBUILDs/mysql56
 	url = https://aur.archlinux.org/mysql56.git
+[submodule "aur-eagletmt/PKGBUILDs/mitamae"]
+	path = aur-eagletmt/PKGBUILDs/mitamae
+	url = https://aur.archlinux.org/mitamae.git
