@@ -10,15 +10,15 @@ class PKGBUILD
     @content = content
   end
 
-  def pkgver
-    out, err, status = Open3.capture3('bash', stdin_data: "#{@content}\necho $pkgver")
+  def pkgver_and_pkgrel
+    out, err, status = Open3.capture3('bash', stdin_data: "#{@content}\necho $pkgver; echo $pkgrel")
     unless status.success?
       puts out
       $stderr.puts err
       $stderr.puts "Exit with #{status.exitstatus}"
-      abort 'Cannot retrieve pkgver'
+      abort 'Cannot retrieve pkgver and pkgrel'
     end
-    out.chomp
+    out.lines.map(&:chomp)
   end
 end
 
@@ -82,11 +82,11 @@ repo = Rugged::Repository.discover('.')
 result = find_modified_pkgbuild(repo) || find_modified_submodule(repo)
 
 if result
-  new_pkgver = PKGBUILD.new(result.new_pkgbuild).pkgver
+  new_pkgver, new_pkgrel = PKGBUILD.new(result.new_pkgbuild).pkgver_and_pkgrel
   message =
     if result.old_pkgbuild
-      old_pkgver = PKGBUILD.new(result.old_pkgbuild).pkgver
-      "Update #{result.pkgname} #{old_pkgver} -> #{new_pkgver}"
+      old_pkgver, old_pkgrel = PKGBUILD.new(result.old_pkgbuild).pkgver_and_pkgrel
+      "Update #{result.pkgname} #{old_pkgver}-#{old_pkgrel} -> #{new_pkgver}-#{new_pkgrel}"
     else
       "Add #{result.pkgname} #{new_pkgver}"
     end
