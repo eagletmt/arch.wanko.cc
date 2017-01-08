@@ -48,7 +48,7 @@ __END__
 
 _commit=<%= commit_sha %>
 _revision=<%= commit_revision %>
-_baseversion=2.4.0
+_baseversion=2.5.0
 pkgname='ruby-trunk'
 pkgver=${_baseversion}r${_revision}
 pkgrel=1
