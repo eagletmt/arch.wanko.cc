@@ -79,7 +79,7 @@ arch=(i686 x86_64)
 license=('custom:vim')
 url="http://www.vim.org"
 depends=('gpm')
-makedepends=('perl' 'python' 'python2' 'ruby' 'luajit')
+makedepends=('perl' 'python2' 'ruby' 'luajit')
 conflicts=(vim vim-runtime)
 provides=(vim=$pkgver vim-runtime=$pkgver)
 source=(vim-$pkgver.tar.gz::https://github.com/<%= owner %>/<%= repo %>/archive/v$pkgver.tar.gz)
@@ -96,10 +96,12 @@ build()
 {
   cd "$srcdir/vim-$pkgver"
 
+  # Disable python3 for now
+  # https://github.com/vim/vim/issues/1359
   ./configure --prefix=/usr --localstatedir=/var/lib/vim --mandir=/usr/share/man \
     --with-features=huge --enable-gpm --enable-acl --with-x=no --disable-gui \
     --enable-multibyte --enable-cscope --disable-netbeans \
-    --enable-perlinterp=dynamic --enable-pythoninterp=dynamic --enable-python3interp=dynamic \
+    --enable-perlinterp=dynamic --enable-pythoninterp=dynamic --disable-python3interp \
     --enable-rubyinterp=dynamic --enable-luainterp=dynamic --with-luajit \
     --with-compiledby='Kohei Suzuki <eagletmt@gmail.com>' \
     --disable-smack
