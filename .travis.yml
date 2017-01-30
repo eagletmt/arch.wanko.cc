@@ -1,10 +1,6 @@
 language: ruby
 rvm: 2.4.0
 sudo: false
-addons:
-  apt:
-    packages:
-      - libarchive-dev
 env:
   global:
     - secure: "ctR2TBzDCr2xX1bQc5XFxq+ZbVwei3iBA4KWO/U/VS88AltU1qvIarDOLufFI15p/OSZhh4lwuInXNrYfp1216fJaFrvO1Ve0dTsqXW70Ayx8y9bTo0PZ+y0XLvv+6bCZa+5XUWvce5JtLMqcOOnyX705lNOAI+8jLuRva+rYH0="
