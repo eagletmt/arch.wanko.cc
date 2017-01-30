@@ -19,7 +19,7 @@
           SigLevel = Required
           Server = http://arch.wanko.cc/$repo/os/$arch
 
-- %w[x86_64 i686].each do |arch|
+- %w[x86_64].each do |arch|
   %div
     %h2= arch
     - packages = repo.packages(arch).to_h

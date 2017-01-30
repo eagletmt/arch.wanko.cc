@@ -6,8 +6,6 @@ srcdest: sources
 logdest: logs
 pkgbuild: PKGBUILDs
 builds:
-  i686:
-    chroot: ../x86_64-root
   x86_64:
     chroot: ../x86_64-root
 s3:
