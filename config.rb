@@ -62,7 +62,8 @@ Denv.load
 
 require 'tempfile'
 require 'aws-sdk-core'
-require 'akabei/repository'
+require 'rubygems/package'
+require 'zlib'
 
 class S3Repository
   def initialize(name)
@@ -79,9 +80,51 @@ class S3Repository
       bucket: @bucket_name,
       key: "#{@name}/os/#{arch}/#{@name}.db",
     )
-    f.close
-    repo = Akabei::Repository.load(f.path)
-    repo.each
+    f.rewind
+    load_descs(f)
+  end
+
+  private
+
+  def load_descs(io)
+    descs = {}
+    Zlib::GzipReader.wrap(io) do |gz|
+      Gem::Package::TarReader.new(gz) do |tar|
+        tar.each do |entry|
+          _, fname = entry.full_name.split('/', 2)
+          if fname == 'desc'
+            desc = parse_desc(entry.read)
+            descs[desc[:name]] = desc
+          end
+        end
+      end
+    end
+    descs
+  end
+
+  def parse_desc(content)
+    desc = {}
+    key = nil
+    content.each_line do |line|
+      line.strip!
+      if m = line.match(/\A%([A-Z0-9]+)%\z/)
+        key = m[1].downcase.to_sym
+      elsif line.empty?
+        key = nil
+      else
+        case desc[key]
+        when nil
+          desc[key] = line
+        when String
+          desc[key] = [desc[key], line]
+        when Array
+          desc[key].push(line)
+        else
+          raise "Unexpected desc[#{key}]: #{desc}"
+        end
+      end
+    end
+    desc
   end
 end
 
