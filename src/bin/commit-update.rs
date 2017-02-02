@@ -74,12 +74,47 @@ fn find_modified_pkgbuild(repo: &git2::Repository) -> Result<Option<PKGBUILDChan
         }
         Err(_) => None,
     };
-    let pkgname_osstr =
-        pkgbuild_path.parent().and_then(|p| p.file_name()).expect("Invalid PKGBUILD path");
-    let pkgname = pkgname_osstr.to_os_string()
-        .into_string()
-        .expect("Invalid UTF-8 sequence is found at pkgname");
 
+    Ok(Some(PKGBUILDChange {
+        new_pkgbuild: new_pkgbuild_content,
+        old_pkgbuild: old_pkgbuild_content,
+        pkgname: path_to_pkgname(pkgbuild_path.parent().expect("Invalid PKGBUILD path")),
+    }))
+}
+
+fn find_modified_submodule(repo: &git2::Repository) -> Result<Option<PKGBUILDChange>, git2::Error> {
+    let mut modified_submodule = None;
+
+    for submodule in try!(repo.submodules()) {
+        let status = try!(repo.submodule_status(submodule.name()
+                                                    .expect("Invalid UTF-8 sequence is found \
+                                                             at submodule's name"),
+                                                git2::SubmoduleIgnore::Dirty));
+        if status.intersects(git2::SUBMODULE_STATUS_INDEX_MODIFIED |
+                             git2::SUBMODULE_STATUS_INDEX_ADDED) {
+            if let None = modified_submodule {
+                modified_submodule = Some(submodule);
+            } else {
+                panic!("Multiple submodules are modified");
+            }
+        }
+    }
+
+    let modified_submodule = match modified_submodule {
+        Some(submodule) => submodule,
+        None => return Ok(None),
+    };
+
+    let sub_repo = try!(git2::Repository::open(modified_submodule.path()));
+    let index_id = modified_submodule.index_id().expect("Unable to get index id of the submodule");
+    let new_pkgbuild_content = try!(get_pkgbuild_content(&sub_repo, index_id, "PKGBUILD"));
+    let old_pkgbuild_content = if let Some(head_id) = modified_submodule.head_id() {
+        Some(try!(get_pkgbuild_content(&sub_repo, head_id, "PKGBUILD")))
+    } else {
+        None
+    };
+
+    let pkgname = path_to_pkgname(modified_submodule.path());
     Ok(Some(PKGBUILDChange {
         new_pkgbuild: new_pkgbuild_content,
         old_pkgbuild: old_pkgbuild_content,
@@ -87,9 +122,25 @@ fn find_modified_pkgbuild(repo: &git2::Repository) -> Result<Option<PKGBUILDChan
     }))
 }
 
-fn find_modified_submodule(repo: &git2::Repository) -> Result<Option<PKGBUILDChange>, git2::Error> {
-    // TODO
-    Ok(None)
+fn get_pkgbuild_content<P>(repo: &git2::Repository,
+                           commit_oid: git2::Oid,
+                           path: P)
+                           -> Result<Vec<u8>, git2::Error>
+    where P: AsRef<std::path::Path>
+{
+    let commit = try!(repo.find_commit(commit_oid));
+    let tree = try!(commit.tree());
+    let tree_entry = try!(tree.get_path(path.as_ref()));
+    let blob = try!(repo.find_blob(tree_entry.id()));
+    Ok(blob.content().to_vec())
+}
+
+fn path_to_pkgname(path: &std::path::Path) -> String {
+    path.file_name()
+        .expect("Invalid PKGBUILD path")
+        .to_os_string()
+        .into_string()
+        .expect("Invalid UTF-8 sequence is found at pkgname")
 }
 
 fn evaluate_pkgbuild(content: &[u8]) -> Result<String, std::io::Error> {
