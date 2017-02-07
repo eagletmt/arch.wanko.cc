@@ -49,3 +49,6 @@
 [submodule "aur-eagletmt/PKGBUILDs/mitamae"]
 	path = aur-eagletmt/PKGBUILDs/mitamae
 	url = https://aur.archlinux.org/mitamae.git
+[submodule "aur-eagletmt/PKGBUILDs/yarn"]
+	path = aur-eagletmt/PKGBUILDs/yarn
+	url = https://aur.archlinux.org/yarn
