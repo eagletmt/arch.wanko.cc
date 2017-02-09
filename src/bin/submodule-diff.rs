@@ -14,9 +14,10 @@ fn show_submodules_diff(repo: &git2::Repository) -> Result<(), git2::Error> {
         if status.contains(git2::SUBMODULE_STATUS_WD_MODIFIED) {
             let head_id = submodule.head_id().expect("Unable to get HEAD id");
             let workdir_id = submodule.workdir_id().expect("Unable to get workdir id");
+            let path = repo.path().parent().unwrap_or(repo.path()).join(submodule.path());
             std::process::Command::new("git")
                 .arg("-C")
-                .arg(submodule.path())
+                .arg(path)
                 .arg("diff")
                 .arg(format!("{}", head_id))
                 .arg(format!("{}", workdir_id))

@@ -105,7 +105,8 @@ fn find_modified_submodule(repo: &git2::Repository) -> Result<Option<PKGBUILDCha
         None => return Ok(None),
     };
 
-    let sub_repo = try!(git2::Repository::open(modified_submodule.path()));
+    let path = repo.path().parent().unwrap_or(repo.path()).join(modified_submodule.path());
+    let sub_repo = try!(git2::Repository::open(path));
     let index_id = modified_submodule.index_id().expect("Unable to get index id of the submodule");
     let new_pkgbuild_content = try!(get_pkgbuild_content(&sub_repo, index_id, "PKGBUILD"));
     let old_pkgbuild_content = if let Some(head_id) = modified_submodule.head_id() {
