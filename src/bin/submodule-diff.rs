@@ -20,6 +20,8 @@ fn show_submodules_diff(repo: &git2::Repository) -> Result<(), git2::Error> {
                 .unwrap_or(repo.path())
                 .join(submodule.path());
             std::process::Command::new("git")
+                .env("LESS", "RX")
+                .arg("--paginate")
                 .arg("-C")
                 .arg(path)
                 .arg("diff")
