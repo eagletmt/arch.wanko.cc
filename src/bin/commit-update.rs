@@ -19,7 +19,11 @@ fn main() {
             };
 
             use std::os::unix::process::CommandExt;
-            let err = std::process::Command::new("git").arg("commit").arg("-m").arg(message).exec();
+            let err = std::process::Command::new("git")
+                .arg("commit")
+                .arg("-m")
+                .arg(message)
+                .exec();
             panic!("{:?}", err);
         }
         None => {
@@ -76,17 +80,18 @@ fn find_modified_pkgbuild(repo: &git2::Repository) -> Result<Option<PKGBUILDChan
     };
 
     Ok(Some(PKGBUILDChange {
-        new_pkgbuild: new_pkgbuild_content,
-        old_pkgbuild: old_pkgbuild_content,
-        pkgname: path_to_pkgname(pkgbuild_path.parent().expect("Invalid PKGBUILD path")),
-    }))
+                new_pkgbuild: new_pkgbuild_content,
+                old_pkgbuild: old_pkgbuild_content,
+                pkgname: path_to_pkgname(pkgbuild_path.parent().expect("Invalid PKGBUILD path")),
+            }))
 }
 
 fn find_modified_submodule(repo: &git2::Repository) -> Result<Option<PKGBUILDChange>, git2::Error> {
     let mut modified_submodule = None;
 
     for submodule in try!(repo.submodules()) {
-        let status = try!(repo.submodule_status(submodule.name()
+        let status = try!(repo.submodule_status(submodule
+                                                    .name()
                                                     .expect("Invalid UTF-8 sequence is found \
                                                              at submodule's name"),
                                                 git2::SubmoduleIgnore::Dirty));
@@ -105,9 +110,14 @@ fn find_modified_submodule(repo: &git2::Repository) -> Result<Option<PKGBUILDCha
         None => return Ok(None),
     };
 
-    let path = repo.path().parent().unwrap_or(repo.path()).join(modified_submodule.path());
+    let path = repo.path()
+        .parent()
+        .unwrap_or(repo.path())
+        .join(modified_submodule.path());
     let sub_repo = try!(git2::Repository::open(path));
-    let index_id = modified_submodule.index_id().expect("Unable to get index id of the submodule");
+    let index_id = modified_submodule
+        .index_id()
+        .expect("Unable to get index id of the submodule");
     let new_pkgbuild_content = try!(get_pkgbuild_content(&sub_repo, index_id, "PKGBUILD"));
     let old_pkgbuild_content = if let Some(head_id) = modified_submodule.head_id() {
         Some(try!(get_pkgbuild_content(&sub_repo, head_id, "PKGBUILD")))
@@ -117,10 +127,10 @@ fn find_modified_submodule(repo: &git2::Repository) -> Result<Option<PKGBUILDCha
 
     let pkgname = path_to_pkgname(modified_submodule.path());
     Ok(Some(PKGBUILDChange {
-        new_pkgbuild: new_pkgbuild_content,
-        old_pkgbuild: old_pkgbuild_content,
-        pkgname: pkgname,
-    }))
+                new_pkgbuild: new_pkgbuild_content,
+                old_pkgbuild: old_pkgbuild_content,
+                pkgname: pkgname,
+            }))
 }
 
 fn get_pkgbuild_content<P>(repo: &git2::Repository,
@@ -148,9 +158,9 @@ fn evaluate_pkgbuild(content: &[u8]) -> Result<String, std::io::Error> {
     use std::io::Write;
 
     let mut child = try!(std::process::Command::new("bash")
-        .stdin(std::process::Stdio::piped())
-        .stdout(std::process::Stdio::piped())
-        .spawn());
+                             .stdin(std::process::Stdio::piped())
+                             .stdout(std::process::Stdio::piped())
+                             .spawn());
     {
         let mut stdin = child.stdin.take().unwrap();
         try!(stdin.write_all(content));
