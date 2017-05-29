@@ -49,3 +49,6 @@
 [submodule "aur-eagletmt/PKGBUILDs/mitamae"]
 	path = aur-eagletmt/PKGBUILDs/mitamae
 	url = https://aur.archlinux.org/mitamae.git
+[submodule "aur-eagletmt/PKGBUILDs/gce-compute-image-packages"]
+	path = aur-eagletmt/PKGBUILDs/gce-compute-image-packages
+	url = https://aur.archlinux.org/gce-compute-image-packages
