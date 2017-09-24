@@ -43,3 +43,6 @@
 [submodule "aur-eagletmt/PKGBUILDs/gce-compute-image-packages"]
 	path = aur-eagletmt/PKGBUILDs/gce-compute-image-packages
 	url = https://aur.archlinux.org/gce-compute-image-packages
+[submodule "aur-eagletmt/PKGBUILDs/python2-crcmod"]
+	path = aur-eagletmt/PKGBUILDs/python2-crcmod
+	url = https://aur.archlinux.org/python2-crcmod
