@@ -1,6 +1,3 @@
-[submodule "aur-eagletmt/PKGBUILDs/ghq"]
-	path = aur-eagletmt/PKGBUILDs/ghq
-	url = https://aur.archlinux.org/ghq
 [submodule "aur-eagletmt/PKGBUILDs/global"]
 	path = aur-eagletmt/PKGBUILDs/global
 	url = https://aur.archlinux.org/global
