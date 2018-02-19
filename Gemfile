@@ -7,6 +7,6 @@ gem "haml"
 gem "middleman-livereload"
 
 gem 'denv'
-gem 'aws-sdk-core'
+gem 'aws-sdk-s3'
 gem 'middleman-s3_sync'
 gem 'mime-types'

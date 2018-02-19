@@ -61,7 +61,7 @@ require 'denv'
 Denv.load
 
 require 'tempfile'
-require 'aws-sdk-core'
+require 'aws-sdk-s3'
 require 'rubygems/package'
 require 'zlib'
 

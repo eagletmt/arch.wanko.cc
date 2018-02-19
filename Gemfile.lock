@@ -14,6 +14,13 @@ GEM
       aws-partitions (~> 1.0)
       aws-sigv4 (~> 1.0)
       jmespath (~> 1.0)
+    aws-sdk-kms (1.5.0)
+      aws-sdk-core (~> 3)
+      aws-sigv4 (~> 1.0)
+    aws-sdk-s3 (1.8.1)
+      aws-sdk-core (~> 3)
+      aws-sdk-kms (~> 1)
+      aws-sigv4 (~> 1.0)
     aws-sigv4 (1.0.2)
     backports (3.11.1)
     builder (3.2.3)
@@ -156,7 +163,7 @@ PLATFORMS
   ruby
 
 DEPENDENCIES
-  aws-sdk-core
+  aws-sdk-s3
   denv
   haml
   middleman (>= 4.0.0)
