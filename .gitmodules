@@ -40,3 +40,6 @@
 [submodule "aur-eagletmt/PKGBUILDs/python2-crcmod"]
 	path = aur-eagletmt/PKGBUILDs/python2-crcmod
 	url = https://aur.archlinux.org/python2-crcmod
+[submodule "aur-eagletmt/PKGBUILDs/mysql57"]
+	path = aur-eagletmt/PKGBUILDs/mysql57
+	url = https://aur.archlinux.org/mysql57
