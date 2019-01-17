@@ -10,10 +10,7 @@ owner = 'ruby'
 repo = 'ruby'
 pkgname = 'ruby-trunk'
 
-https = Net::HTTP.new('api.github.com', 443)
-https.use_ssl = true
-https.verify_mode = OpenSSL::SSL::VERIFY_PEER
-head_commit = https.start do
+head_commit = Net::HTTP.start('api.github.com', 443, use_ssl: true) do |https|
   req = Net::HTTP::Get.new("/repos/#{owner}/#{repo}/commits")
   req['Accept'] = 'application/vnd.github.v3+json'
   res = https.request(req)
@@ -48,7 +45,7 @@ __END__
 
 _commit=<%= commit_sha %>
 _revision=<%= commit_revision %>
-_baseversion=2.6.0
+_baseversion=2.7.0
 pkgname='ruby-trunk'
 pkgver=${_baseversion}r${_revision}
 pkgrel=1
