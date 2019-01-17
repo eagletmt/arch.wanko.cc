@@ -6,16 +6,19 @@ fn main() {
 }
 
 fn show_submodules_diff(repo: &git2::Repository) -> Result<(), git2::Error> {
-    for submodule in try!(repo.submodules()) {
-        let status = try!(repo.submodule_status(submodule
-                                                    .name()
-                                                    .expect("Invalid UTF-8 sequence is found \
-                                                             at submodule's name"),
-                                                git2::SubmoduleIgnore::Dirty));
-        if status.contains(git2::SUBMODULE_STATUS_WD_MODIFIED) {
+    for submodule in repo.submodules()? {
+        let status = repo.submodule_status(
+            submodule.name().expect(
+                "Invalid UTF-8 sequence is found \
+                 at submodule's name",
+            ),
+            git2::SubmoduleIgnore::Dirty,
+        )?;
+        if status.is_wd_modified() {
             let head_id = submodule.head_id().expect("Unable to get HEAD id");
             let workdir_id = submodule.workdir_id().expect("Unable to get workdir id");
-            let path = repo.path()
+            let path = repo
+                .path()
                 .parent()
                 .unwrap_or(repo.path())
                 .join(submodule.path());

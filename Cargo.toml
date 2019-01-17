@@ -1,7 +1,8 @@
 [package]
-name = "arch.wanko.cc"
+name = "arch-wanko-cc"
 version = "0.0.0"
 publish = false
+edition = "2018"
 
 [dependencies]
-git2 = "0.6"
+git2 = "0.8"
