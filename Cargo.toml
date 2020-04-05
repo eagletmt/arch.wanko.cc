@@ -5,4 +5,4 @@ publish = false
 edition = "2018"
 
 [dependencies]
-git2 = "0.8"
+git2 = "0.13"
