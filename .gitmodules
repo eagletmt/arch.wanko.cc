@@ -22,9 +22,6 @@
 [submodule "aur-eagletmt/PKGBUILDs/google-cloud-sdk"]
 	path = aur-eagletmt/PKGBUILDs/google-cloud-sdk
 	url = https://aur.archlinux.org/google-cloud-sdk.git
-[submodule "aur-eagletmt/PKGBUILDs/td-agent"]
-	path = aur-eagletmt/PKGBUILDs/td-agent
-	url = https://aur.archlinux.org/td-agent.git
 [submodule "aur-eagletmt/PKGBUILDs/mitamae"]
 	path = aur-eagletmt/PKGBUILDs/mitamae
 	url = https://aur.archlinux.org/mitamae.git
