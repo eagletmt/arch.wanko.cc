@@ -1,30 +1,32 @@
 # Maintainer: Kohei Suzuki <eagletmt@gmail.com>
 
-_commit=d1417ff8fabe8a99dc6c21830b7b3169bb03aa64
-_revision=66838
-_baseversion=2.7.0
+_commit=79b242260bc0530503dde85eda8e79b1c2aa9a6e
+_shortcommit=79b242260b
 pkgname='ruby-trunk'
-pkgver=${_baseversion}r${_revision}
+pkgver=20201102
 pkgrel=1
 pkgdesc='An object-oriented language for quick and easy programming'
 arch=('i686' 'x86_64')
 url='http://www.ruby-lang.org/en/'
 depends=('gdbm' 'openssl' 'libffi' 'libyaml' 'gmp' 'zlib')
 makedepends=('ruby')  # for baseruby
-provides=("ruby=${pkgver}" 'rubygems' 'rake')
+provides=("ruby=3.0.0" 'rubygems')
 conflicts=('ruby')
-conflicts=('rake')
 backup=('etc/gemrc')
 install='ruby.install'
 license=('BSD' 'custom')
 options=('!emptydirs' '!strip' 'staticlibs')
-source=("ruby-r${_revision}.tar.gz::https://github.com/ruby/ruby/archive/${_commit}.tar.gz"
+source=("ruby-${_commit}.tar.gz::https://github.com/ruby/ruby/archive/${_commit}.tar.gz"
         'gemrc')
 
 build() {
   cd ruby-${_commit}
 
   autoreconf -i
+  cat > revision.h << EOS
+#define RUBY_REVISION "${_shortcommit}"
+#define RUBY_FULL_REVISION "${_commit}"
+EOS
   PKG_CONFIG=/usr/bin/pkg-config ./configure \
     --prefix=/usr \
     --sysconfdir=/etc \
@@ -36,8 +38,7 @@ build() {
     --with-dbm-type=gdbm_compat \
     --enable-debug-env \
     --disable-install-doc \
-    CFLAGS="$CFLAGS -ggdb3" \
-    CPPFLAGS="$CPPFLAGS -DRUBY_REVISION=${_revision}"
+    CFLAGS="$CFLAGS -ggdb3"
 
   make
 }
@@ -59,5 +60,5 @@ package() {
   install -D -m644 BSDL "${pkgdir}/usr/share/licenses/ruby/BSDL"
 }
 
-sha1sums=('a95ffdc9d1cccc251241ec34e38f947301f20573'
+sha1sums=('dc5feaa2546917ffcb0569c825da8e79e1d6690b'
           'de4b760b7e2cd9af88ca67536ce37b950f1ee514')

@@ -5,6 +5,7 @@ require 'json'
 require 'net/http'
 require 'openssl'
 require 'pathname'
+require 'time'
 
 owner = 'ruby'
 repo = 'ruby'
@@ -20,15 +21,11 @@ head_commit = Net::HTTP.start('api.github.com', 443, use_ssl: true) do |https|
   JSON.parse(res.body).first
 end
 
-def extract_revision(message)
-  message[/git-svn-id: .*@([0-9]+)/, 1].to_i
-end
-
 commit_sha = head_commit['sha']
-commit_revision = extract_revision(head_commit['commit']['message'])
+commit_date = Time.parse(head_commit['commit']['committer']['date']).strftime('%Y%m%d')
 
 url = "https://github.com/ruby/ruby/archive/#{commit_sha}.tar.gz"
-dest = Pathname.new(__dir__).join('sources', "ruby-r#{commit_revision}.tar.gz")
+dest = Pathname.new(__dir__).join('sources', "ruby-#{commit_sha}.tar.gz")
 dest.parent.mkpath
 unless system('curl', '-vL', '-o', dest.to_s, url)
   abort "curl error"
@@ -44,30 +41,32 @@ __END__
 # Maintainer: Kohei Suzuki <eagletmt@gmail.com>
 
 _commit=<%= commit_sha %>
-_revision=<%= commit_revision %>
-_baseversion=2.7.0
+_shortcommit=<%= commit_sha[0, 10] %>
 pkgname='ruby-trunk'
-pkgver=${_baseversion}r${_revision}
+pkgver=<%= commit_date %>
 pkgrel=1
 pkgdesc='An object-oriented language for quick and easy programming'
 arch=('i686' 'x86_64')
 url='http://www.ruby-lang.org/en/'
 depends=('gdbm' 'openssl' 'libffi' 'libyaml' 'gmp' 'zlib')
 makedepends=('ruby')  # for baseruby
-provides=("ruby=${pkgver}" 'rubygems' 'rake')
+provides=("ruby=3.0.0" 'rubygems')
 conflicts=('ruby')
-conflicts=('rake')
 backup=('etc/gemrc')
 install='ruby.install'
 license=('BSD' 'custom')
 options=('!emptydirs' '!strip' 'staticlibs')
-source=("ruby-r${_revision}.tar.gz::https://github.com/ruby/ruby/archive/${_commit}.tar.gz"
+source=("ruby-${_commit}.tar.gz::https://github.com/ruby/ruby/archive/${_commit}.tar.gz"
         'gemrc')
 
 build() {
   cd ruby-${_commit}
 
   autoreconf -i
+  cat > revision.h << EOS
+#define RUBY_REVISION "${_shortcommit}"
+#define RUBY_FULL_REVISION "${_commit}"
+EOS
   PKG_CONFIG=/usr/bin/pkg-config ./configure \
     --prefix=/usr \
     --sysconfdir=/etc \
@@ -79,8 +78,7 @@ build() {
     --with-dbm-type=gdbm_compat \
     --enable-debug-env \
     --disable-install-doc \
-    CFLAGS="$CFLAGS -ggdb3" \
-    CPPFLAGS="$CPPFLAGS -DRUBY_REVISION=${_revision}"
+    CFLAGS="$CFLAGS -ggdb3"
 
   make
 }
