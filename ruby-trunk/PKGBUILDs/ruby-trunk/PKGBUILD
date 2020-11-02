@@ -10,8 +10,8 @@ arch=('i686' 'x86_64')
 url='http://www.ruby-lang.org/en/'
 depends=('gdbm' 'openssl' 'libffi' 'libyaml' 'gmp' 'zlib')
 makedepends=('ruby')  # for baseruby
-provides=("ruby=3.0.0" 'rubygems')
-conflicts=('ruby')
+provides=("ruby=3.0.0" 'rubygems' 'ruby-irb' 'ruby-reline')
+conflicts=('ruby' 'rubygems' 'ruby-irb' 'ruby-reline')
 backup=('etc/gemrc')
 install='ruby.install'
 license=('BSD' 'custom')
