@@ -1,0 +1,26 @@
+name: update-pages
+
+on:
+  push:
+    branches:
+      - master
+
+env:
+  AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
+  AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+  AWS_REGION: ap-northeast-1
+  BUCKET: arch.wanko.cc
+
+jobs:
+  middleman:
+    name: middleman
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+      - uses: ruby/setup-ruby@v1
+        with:
+          ruby-version: 2.7
+          bundler-cache: true
+      - run: bundle install -j4 --deployment
+      - run: bundle exec middleman build
+      - run: bundle exec middleman s3_sync

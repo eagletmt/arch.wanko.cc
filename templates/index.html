@@ -1,0 +1,19 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <title>arch.wanko.cc</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootswatch/4.5.2/slate/bootstrap.min.css" integrity="sha384-8iuq0iaMHpnH2vSyvZMSIqQuUnQA7QM+f6srIdlgBrTSEyd//AWNMyEaSF2yPzNQ" crossorigin="anonymous">
+  </head>
+  <body>
+    <div class="container">
+      <h1>Repositories</h1>
+      <ul>{{#each repositories}}
+        <li class="lead"><a href="{{this}}">{{this}}</a></li>{{/each}}
+      </ul>
+      <footer>
+        <a href="https://github.com/eagletmt/arch.wanko.cc">https://github.com/eagletmt/arch.wanko.cc</a>
+      </footer>
+    </div>
+  </body>
+</html>
