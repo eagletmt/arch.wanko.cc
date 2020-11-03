@@ -68,7 +68,7 @@ require 'zlib'
 class S3Repository
   def initialize(name)
     @name = name
-    @s3 = Aws::S3::Client.new(region: ENV['REGION'])
+    @s3 = Aws::S3::Client.new
     @bucket_name = ENV['BUCKET']
   end
 
@@ -153,7 +153,6 @@ end
 
 activate :s3_sync do |s3_sync|
   s3_sync.bucket = ENV['BUCKET']
-  s3_sync.region = ENV['REGION']
   s3_sync.delete = false
   s3_sync.reduced_redundancy_storage = true
 end
