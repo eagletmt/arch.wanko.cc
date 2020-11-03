@@ -1,9 +1,9 @@
 # Maintainer: Kohei Suzuki <eagletmt@gmail.com>
 
-_commit=79b242260bc0530503dde85eda8e79b1c2aa9a6e
-_shortcommit=79b242260b
+_commit=fa7484019d4321f8c0775a4811574dccd29bcaea
+_shortcommit=fa7484019d
 pkgname='ruby-trunk'
-pkgver=20201102
+pkgver=20201103
 pkgrel=1
 pkgdesc='An object-oriented language for quick and easy programming'
 arch=('i686' 'x86_64')
@@ -60,5 +60,5 @@ package() {
   install -D -m644 BSDL "${pkgdir}/usr/share/licenses/ruby/BSDL"
 }
 
-sha1sums=('dc5feaa2546917ffcb0569c825da8e79e1d6690b'
+sha1sums=('942919a6c81915afb3ab8083f3ee64513fba99c2'
           'de4b760b7e2cd9af88ca67536ce37b950f1ee514')
