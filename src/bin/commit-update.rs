@@ -51,7 +51,7 @@ fn find_modified_pkgbuild(repo: &git2::Repository) -> Result<Option<PKGBUILDChan
         if status.is_index_modified() || status.is_index_new() {
             if let Some(filename) = path.file_name() {
                 if filename == "PKGBUILD" {
-                    if let None = new_pkgbuild_entry {
+                    if new_pkgbuild_entry.is_none() {
                         new_pkgbuild_entry = Some(entry);
                     } else {
                         panic!("Multiple PKGBUILDs are modified");
@@ -98,7 +98,7 @@ fn find_modified_submodule(repo: &git2::Repository) -> Result<Option<PKGBUILDCha
             git2::SubmoduleIgnore::Dirty,
         )?;
         if status.is_index_modified() || status.is_index_added() {
-            if let None = modified_submodule {
+            if modified_submodule.is_none() {
                 modified_submodule = Some(submodule);
             } else {
                 panic!("Multiple submodules are modified");
@@ -114,7 +114,7 @@ fn find_modified_submodule(repo: &git2::Repository) -> Result<Option<PKGBUILDCha
     let path = repo
         .path()
         .parent()
-        .unwrap_or(repo.path())
+        .unwrap_or_else(|| repo.path())
         .join(modified_submodule.path());
     let sub_repo = git2::Repository::open(path)?;
     let index_id = modified_submodule
@@ -131,7 +131,7 @@ fn find_modified_submodule(repo: &git2::Repository) -> Result<Option<PKGBUILDCha
     Ok(Some(PKGBUILDChange {
         new_pkgbuild: new_pkgbuild_content,
         old_pkgbuild: old_pkgbuild_content,
-        pkgname: pkgname,
+        pkgname,
     }))
 }
 

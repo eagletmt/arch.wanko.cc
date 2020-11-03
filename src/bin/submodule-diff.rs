@@ -20,7 +20,7 @@ fn show_submodules_diff(repo: &git2::Repository) -> Result<(), git2::Error> {
             let path = repo
                 .path()
                 .parent()
-                .unwrap_or(repo.path())
+                .unwrap_or_else(|| repo.path())
                 .join(submodule.path());
             std::process::Command::new("git")
                 .env("LESS", "RX")
