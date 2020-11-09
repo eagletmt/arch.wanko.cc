@@ -79,7 +79,7 @@ arch=(i686 x86_64)
 license=('custom:vim')
 url="http://www.vim.org"
 depends=('gpm')
-makedepends=('perl' 'python2' 'ruby' 'luajit')
+makedepends=('perl' 'python' 'ruby' 'luajit')
 conflicts=(vim vim-runtime)
 provides=(vim=$pkgver vim-runtime=$pkgver)
 source=(vim-$pkgver.tar.gz::https://github.com/<%= owner %>/<%= repo %>/archive/v$pkgver.tar.gz)
@@ -87,7 +87,6 @@ source=(vim-$pkgver.tar.gz::https://github.com/<%= owner %>/<%= repo %>/archive/
 prepare() {
   cd "$srcdir/vim-$pkgver"
 
-  sed -i 's|set dummy python;|set dummy python2;|g' src/auto/configure
   sed -i 's|^.*\(#define SYS_.*VIMRC_FILE.*"\) .*$|\1|' src/feature.h
   sed -i 's|^.*\(#define VIMRC_FILE.*"\) .*$|\1|' src/feature.h
 }
@@ -96,12 +95,10 @@ build()
 {
   cd "$srcdir/vim-$pkgver"
 
-  # Disable python3 for now
-  # https://github.com/vim/vim/issues/1359
   ./configure --prefix=/usr --localstatedir=/var/lib/vim --mandir=/usr/share/man \
     --with-features=huge --enable-gpm --enable-acl --with-x=no --disable-gui \
     --enable-multibyte --enable-cscope --disable-netbeans \
-    --enable-perlinterp=dynamic --enable-pythoninterp=dynamic --disable-python3interp \
+    --enable-perlinterp=dynamic --enable-python3interp=dynamic \
     --enable-rubyinterp=dynamic --enable-luainterp=dynamic --with-luajit \
     --with-compiledby='Kohei Suzuki <eagletmt@gmail.com>' \
     --disable-smack
