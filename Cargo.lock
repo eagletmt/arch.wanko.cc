@@ -34,6 +34,7 @@ dependencies = [
  "git2",
  "handlebars",
  "md-5",
+ "regex",
  "reqwest",
  "rusoto_s3",
  "serde",
