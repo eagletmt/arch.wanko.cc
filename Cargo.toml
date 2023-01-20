@@ -11,7 +11,7 @@ bytes = "0.6"
 chrono = { version = "0.4", features = ["serde"] }
 flate2 = "1.0"
 futures = "0.3"
-git2 = "0.13"
+git2 = "0.16"
 handlebars = "3.5"
 md-5 = "0.9"
 regex = "1.4"
